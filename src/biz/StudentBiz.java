@@ -47,7 +47,12 @@ public class StudentBiz {
 
     public static void main(String[] args) throws BizException {
         StudentBiz studentBiz = new StudentBiz();
-        System.out.println(studentBiz.login("1001","1234"));
+        studentBiz.select("1001","123");
     }
-
+    // 显示学生信息
+    public void select(String Sno, String Spw) {
+        String sql = "select * from student where Sno=? and Spw=?";
+        List<Student> list= new DBHelper().query(sql,Student.class,Sno,Spw);
+        System.out.println(list);
+    }
 }
