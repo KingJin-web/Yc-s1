@@ -3,27 +3,27 @@ package beain;
 import java.util.Objects;
 
 public class Student {
-    private String sid;
+    private int sid;  //学生id
     private int sno; //学号
     private String sname;
     private String ssex;
     private int sage;
     private String sclass;
-    private String sco;
-    private int smo;
+    private int cid;
+    private float smo;
     private String spw;
     private String sma;
 
     @Override
     public String toString() {
         return "Student{" +
-                "sid='" + sid + '\'' +
+                "sid=" + sid +
                 ", sno=" + sno +
                 ", sname='" + sname + '\'' +
                 ", ssex='" + ssex + '\'' +
                 ", sage=" + sage +
                 ", sclass='" + sclass + '\'' +
-                ", sco='" + sco + '\'' +
+                ", cid=" + cid +
                 ", smo=" + smo +
                 ", spw='" + spw + '\'' +
                 ", sma='" + sma + '\'' +
@@ -35,28 +35,28 @@ public class Student {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return sno == student.sno &&
+        return sid == student.sid &&
+                sno == student.sno &&
                 sage == student.sage &&
+                cid == student.cid &&
                 smo == student.smo &&
-                Objects.equals(sid, student.sid) &&
                 Objects.equals(sname, student.sname) &&
                 Objects.equals(ssex, student.ssex) &&
                 Objects.equals(sclass, student.sclass) &&
-                Objects.equals(sco, student.sco) &&
                 Objects.equals(spw, student.spw) &&
                 Objects.equals(sma, student.sma);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sid, sno, sname, ssex, sage, sclass, sco, smo, spw, sma);
+        return Objects.hash(sid, sno, sname, ssex, sage, sclass, cid, smo, spw, sma);
     }
 
-    public String getSid() {
+    public int getSid() {
         return sid;
     }
 
-    public void setSid(String sid) {
+    public void setSid(int sid) {
         this.sid = sid;
     }
 
@@ -100,19 +100,19 @@ public class Student {
         this.sclass = sclass;
     }
 
-    public String getSco() {
-        return sco;
+    public int getCid() {
+        return cid;
     }
 
-    public void setSco(String sco) {
-        this.sco = sco;
+    public void setCid(int cid) {
+        this.cid = cid;
     }
 
-    public int getSmo() {
+    public float getSmo() {
         return smo;
     }
 
-    public void setSmo(int smo) {
+    public void setSmo(float smo) {
         this.smo = smo;
     }
 

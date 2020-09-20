@@ -315,7 +315,7 @@ public class DBHelper {
         } catch (SQLException e) {
             throw new RuntimeException("执行SQL语句失败!", e);
         } finally {
-            if (isAutoCommit == true) {
+            if (isAutoCommit) {
                 IOHelper.close(conn);
             }
         }
@@ -332,7 +332,6 @@ public class DBHelper {
                 ps.setObject(i + 1, params[i]);
             }
             ResultSet rs = ps.executeQuery();
-
             // 获取结果集元数据对象, 元(Meta)数据(data): 描述数据的数据
             ResultSetMetaData rsmd = rs.getMetaData();
             // 创建返回结果对象
