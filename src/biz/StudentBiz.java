@@ -40,7 +40,7 @@ public class StudentBiz {
         }
 
         // 需要基本的判断
-        String sql = "select * from student where Sno=? and Spw=?";
+        String sql = "select * from student where Sname=? and Spw=?";
         List<Map<String, Object>> list = new DBHelper().query(sql, Sno, Spw);
 
         if (list.size() == 1) {
@@ -54,14 +54,11 @@ public class StudentBiz {
 
     /**
      * 显示学生信息
-     *
-     * @param Sno
-     * @param Spw
      * @return
      */
-    public List<Student> select(String Sno, String Spw) {
-        String sql = "select * from student where Sno=? and Spw=?";
-        List<Student> list = new DBHelper().query(sql, Student.class, Sno, Spw);
+    public List<Student> select(String sname) {
+        String sql = "select * from student where 1 = 1 and Sname=?";
+        List<Student> list = new DBHelper().query(sql, Student.class, sname);
         System.out.println(list);
 //        Student email = list.getSma();
         return list;
@@ -126,7 +123,13 @@ public class StudentBiz {
 
     public static void main(String[] args) throws BizException, GeneralSecurityException, MessagingException {
         StudentBiz studentBiz = new StudentBiz();
-        studentBiz.changePw("20010101","0001","0001");
+        List<Student> list = studentBiz.select("蔡徐坤");
+        String email = null;
+        for (Student stu : list) {
+            email = stu.getSma();
+        }
+        System.out.println(email);
     }
 
+    String [] college = new String[]{"外国语学院", "建工学院", "数能学院", "机械学院","材化学院","电信学院","经管学院","计信学院"};
 }

@@ -1,6 +1,7 @@
 package biz;
 
 import Util.sql.DBHelper;
+import beain.Student;
 import beain.Teacher;
 
 import java.util.List;
@@ -48,5 +49,28 @@ public class TeacherBiz {
         }
     }
 
+    public void TeacherInsert(Student student) {
+        String sql = "insert into student values(?,?,?,?,?,?,?,?,?)";
+        new DBHelper().update(sql,
 
+                student.getSno(),
+                student.getSname(),
+                student.getSsex(),
+                student.getSage(),
+                student.getSclass(),
+                student.getCid(),
+                student.getSmo(),
+                student.getSpw(),
+                student.getSma());
+    }
+
+    public void TeacherUpdate(Student student) {
+        String sql = "update student set Sclass = ? ,Cid = ?,Smo = ? ,Sma = ? where Sname = ?";
+        new DBHelper().update(sql,
+                student.getSclass(),
+                student.getCid(),
+                student.getSmo(),
+                student.getSma(),
+                student.getSname());
+    }
 }
