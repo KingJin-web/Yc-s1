@@ -1,8 +1,8 @@
 package biz;
 
 import Util.sql.DBHelper;
-import beain.Student;
-import beain.Teacher;
+import bean.Student;
+import bean.Teacher;
 
 import java.util.List;
 import java.util.Map;

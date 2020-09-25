@@ -116,12 +116,14 @@ public class DBHelper {
         //String url = "jdbc:oracle:thin:@39.107.46.233:1521:orcl"; // 数据库的地址
 
 
-        String DB_URL = "jdbc:mysql://kingmysql.mysql.rds.aliyuncs.com:3306/ycs1";
+//        String DB_URL = "jdbc:mysql://kingmysql.mysql.rds.aliyuncs.com:3306/ycs1";
+//        // 数据库的用户名与密码，需要根据自己的设置
+//        String USER = "ycs1";
+//        String PASS = "aaaaaaaa";
 
-
-        // 数据库的用户名与密码，需要根据自己的设置
-        String USER = "ycs1";
-        String PASS = "aaaaaaaa";
+        String DB_URL = "jdbc:mysql://localhost:3306/ycs1?serverTimezone=GMT%2B8";
+        String USER = "root";
+        String PASS = "aaaa";
         try {
             if (isAutoCommit) {
                 return DriverManager.getConnection(DB_URL, USER, PASS);

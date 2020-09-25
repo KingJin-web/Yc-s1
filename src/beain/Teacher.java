@@ -1,4 +1,4 @@
-package beain;
+package bean;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package beain;
+package bean;
 
 import java.util.Objects;
 
@@ -13,6 +13,8 @@ public class Student {
     private float smo;
     private String spw;
     private String sma;
+    private String imgfile;
+
 
     @Override
     public String toString() {
@@ -27,6 +29,7 @@ public class Student {
                 ", smo=" + smo +
                 ", spw='" + spw + '\'' +
                 ", sma='" + sma + '\'' +
+                ", imgfile='" + imgfile + '\'' +
                 '}';
     }
 
@@ -50,6 +53,14 @@ public class Student {
     @Override
     public int hashCode() {
         return Objects.hash(sid, sno, sname, ssex, sage, sclass, cid, smo, spw, sma);
+    }
+
+    public String getImgfile() {
+        return imgfile;
+    }
+
+    public void setImgfile(String imgfile) {
+        this.imgfile = imgfile;
     }
 
     public int getSid() {
