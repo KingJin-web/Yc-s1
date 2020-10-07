@@ -67,6 +67,38 @@ public class StudentBiz {
     }
 
     /**
+     * UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值 修改密码
+     *
+     * @param newPw1
+     * @param newPw2
+     * @return
+     */
+    public boolean changePw(String sno, String newPw1, String newPw2, int YanZhengma)
+            throws BizException{
+
+        if (newPw1 == null || newPw1.trim().isEmpty()) {
+            throw new BizException("密码为空 ! ");
+        }
+        if (newPw2 == null || newPw2.trim().isEmpty()) {
+            throw new BizException("密码为空 ! ");
+        }
+        if (!newPw1.equals(newPw2)) {
+            throw new BizException("两次密码不一致请重新输入 ! ");
+        }
+
+        Scanner input = new Scanner(System.in);// 创建一个键盘扫描类对象
+
+        System.out.println(radomInt);
+        if (radomInt != YanZhengma) {
+            throw new BizException("验证码不一致请重新获取 ! ");
+        }
+        // UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值
+        String sql = "update student set spw = ? where sname = ?";
+        new DBHelper().update(sql, newPw1, sno);
+        return true;
+    }
+
+    /**
      * UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值
      * 修改密码
      *

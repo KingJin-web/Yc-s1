@@ -1,7 +1,5 @@
 package Util.io;
 
-import ui.StudentCard;
-
 import java.io.*;
 
 /**
