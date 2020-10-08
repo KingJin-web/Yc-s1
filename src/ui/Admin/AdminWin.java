@@ -29,6 +29,7 @@ import dao.StuDao;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Combo;
+import util.DBHelper;
 
 public class AdminWin {
 

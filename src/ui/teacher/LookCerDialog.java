@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 
 import bean.Certificate;
+import util.DBHelper;
 import util.SwtLabelPaintListner;
 
 import org.eclipse.swt.events.SelectionAdapter;

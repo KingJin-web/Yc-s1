@@ -25,6 +25,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import util.DBHelper;
 
 public class EmailDialog extends Dialog {
 

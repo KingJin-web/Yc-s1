@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import bean.Student;
+import util.DBHelper;
 
 public class AdminBiz {
 	private DBHelper dbh = new DBHelper();

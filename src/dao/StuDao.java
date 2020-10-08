@@ -5,6 +5,7 @@ import java.util.List;
 
 import bean.Message;
 import bean.PEmail;
+import util.DBHelper;
 
 public class StuDao {
 	public String showMessage() {

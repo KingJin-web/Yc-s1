@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
+import util.DBHelper;
 
 public class CerDialog extends Dialog {
 	

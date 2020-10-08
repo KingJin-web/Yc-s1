@@ -65,7 +65,7 @@ public class HelpWin {
 		shell.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		text = new Text(shell, SWT.BORDER | SWT.READ_ONLY | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL | SWT.CANCEL);
-		text.setText(insert("README.md"));
+		text.setText(insert("操作指南.txt"));
 	}
 
 	public static String insert(String filename) {

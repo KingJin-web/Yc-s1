@@ -20,6 +20,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import bean.Student;
 import biz.AdminBiz;
 
+import util.IOHelper;
 import util.SwtLabelPaintListner;
 
 import org.eclipse.swt.widgets.Combo;
@@ -157,13 +158,10 @@ public class AddDialog extends Dialog {
 				fileselect.setFilterNames(new String[] { "文本文件 (*.jpg*)", "所有文件(*.*)" });// 设置扩展名
 				fileselect.setFilterExtensions(new String[] { "*.jpg", "*.*" });// 设置文件扩展名
 				url = fileselect.open();
-				fileName = IOHelper.retFileName(url);
+
 
 				try {
-
-					// IOHelper.copyFile(url, System.getProperty("user.dir") + "\\src\\img\\" +
-					// fileName);
-					// IOHelper.copyFile(url, "D:\\stuImg\\" + fileName);
+					fileName = IOHelper.retFileName(url);
 					label.setImage(SWTResourceManager.getImage(url));
 
 				} catch (Exception ioException) {

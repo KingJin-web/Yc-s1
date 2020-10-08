@@ -1,6 +1,7 @@
 package ui.student;
 
 
+import biz.BizException;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -24,6 +25,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import ui.Login;
+import util.SwtHelper;
 
 
 public class StudentCard {
@@ -102,17 +104,15 @@ public class StudentCard {
 				fileselect.setFilterNames(new String[] { "文本文件 (*.jpg*)", "所有文件(*.*)" });// 设置扩展名
 				fileselect.setFilterExtensions(new String[] { "*.jpg", "*.*" });// 设置文件扩展名
 				url = fileselect.open();
-				fileName = IOHelper.retFileName(url);
+
 
 				try {
-					// IOHelper.copyFile(url, System.getProperty("user.dir") + "\\src\\img\\" +
-					// fileName);
+					fileName = IOHelper.retFileName(url);
 					IOHelper.copyFile(url, "D:\\stuImg\\" + fileName);
 					sb.updaeImg(fileName, name);
 					query(name);
-
-				} catch (IOException ioException) {
-					ioException.printStackTrace();
+				} catch (Exception Exception) {
+					SwtHelper.message(Exception.getMessage(),shell);
 				} finally {
 					lblNewLabel.setImage(SWTResourceManager.getImage("D:\\stuImg\\" + new StudentBiz().RetFile(name)));
 				}
@@ -329,11 +329,12 @@ public class StudentCard {
 		fileselect.setFilterNames(new String[] { "图片 (*.jpg*)", "所有文件(*.*)" });// 设置扩展名
 		fileselect.setFilterExtensions(new String[] { "*.jpg", "*.*" });// 设置文件扩展名
 
-		fileName = IOHelper.retFileName(url);
+
 		url = fileselect.open();
 		try {
+			fileName = IOHelper.retFileName(url);
 			IOHelper.copyFile(url, System.getProperty("user.dir") + "\\img\\" + fileName);
-		} catch (IOException ioException) {
+		} catch (Exception ioException) {
 			ioException.printStackTrace();
 		}
 		System.out.println("选择的图片路径：" + url);
