@@ -44,8 +44,6 @@ public class EmailHelper {
         properties.setProperty("mail.transport.protocol", "smtp");
 
         properties.setProperty("mail.smtp.auth", "true");
-
-
         //QQ存在一个特性设置SSL加密
         MailSSLSocketFactory sf = new MailSSLSocketFactory();
         sf.setTrustAllHosts(true);
@@ -59,23 +57,18 @@ public class EmailHelper {
                 return new PasswordAuthentication("发件人邮箱", "邮箱 SMTP 信息");
             }
         });
-
         //开启debug模式
         session.setDebug(true);
-
         //获取连接对象
         Transport transport = session.getTransport();
         //连接服务器
         transport.connect("smtp.qq.com", "发件人邮箱", "邮箱 SMTP 信息");
-
         //创建邮件对象
         MimeMessage mimeMessage = new MimeMessage(session);
         //邮件发送人
         mimeMessage.setFrom(new InternetAddress("发件人邮箱"));
-
         //邮件接收人
         mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
-
         //邮件标题
         mimeMessage.setSubject("Hello Mail");
 
