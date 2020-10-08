@@ -11,10 +11,11 @@ import java.util.regex.Pattern;
 public class JudgeHelper {
     /**
      * 判断Email合法性
+     *
      * @param email 邮箱
      * @return 是便ture不是便false
      */
-    public static boolean isEmail(String email){
+    public boolean isEmail(String email) {
         if (email == null || email.trim().isEmpty())
             return false;
         String rule = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
@@ -22,10 +23,9 @@ public class JudgeHelper {
         Matcher matcher;
         pattern = Pattern.compile(rule);
         matcher = pattern.matcher(email);
-        if (matcher.matches()){
+        if (matcher.matches()) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -44,5 +44,10 @@ public class JudgeHelper {
         } else {
             return true;
         }
+    }
+
+    public static void main(String[] args) {
+        JudgeHelper jdh = new JudgeHelper();
+        System.out.println(jdh.isEmail("1@1.com"));
     }
 }
