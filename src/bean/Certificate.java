@@ -3,14 +3,22 @@ package bean;
 import java.util.Date;
 
 public class Certificate {
-	
+
 	private Integer id;
 	private String zname;
 	private String sname;
 	private Date time;
 	private Date sptime;
 	private String zsimg;
-	private Boolean zt;
+	private Integer zt;
+
+
+	public Integer getZt() {
+		return zt;
+	}
+	public void setZt(Integer zt) {
+		this.zt = zt;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -47,12 +55,5 @@ public class Certificate {
 	public void setZsimg(String zsimg) {
 		this.zsimg = zsimg;
 	}
-	public Boolean getZt() {
-		return zt;
-	}
-	public void setZt(Boolean zt) {
-		this.zt = zt;
-	}
-	
-	
+
 }

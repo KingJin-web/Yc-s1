@@ -1,4 +1,4 @@
-package Util;
+package util;
 
 import com.sun.mail.util.MailSSLSocketFactory;
 
@@ -9,7 +9,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.security.GeneralSecurityException;
 import java.util.Properties;
-import java.util.Random;
 
 public class EmailHelper {
 

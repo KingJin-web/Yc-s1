@@ -19,7 +19,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import Util.swt.SwtHelper;
+import util.SwtHelper;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
@@ -181,10 +181,7 @@ public class Login {
 		try {
 			sBiz.login(sname, spw);
 		} catch (BizException e) {
-			MessageBox msBox = new MessageBox(shell);
-			msBox.setText("系统提示"); 
-			msBox.setMessage(e.getMessage());
-			msBox.open();
+			SwtHelper.message(e.getMessage(),shell);
 			return false;
 		} finally {
 			returnName();

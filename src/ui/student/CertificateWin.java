@@ -3,7 +3,7 @@ package ui.student;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
-import Util.sql.DBHelper;
+import util.DBHelper;
 import bean.Certificate;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;

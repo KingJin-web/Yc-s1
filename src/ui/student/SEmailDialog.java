@@ -35,7 +35,7 @@ public class SEmailDialog extends Dialog {
 	 */
 	public SEmailDialog(Shell parent, int style) {
 		super(parent, style);
-		setText("SWT Dialog");
+		setText("详情");
 	}
 
 	/**

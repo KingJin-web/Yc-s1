@@ -13,8 +13,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
-import Util.EmailHelper;
-import Util.sql.DBHelper;
+import util.EmailHelper;
+import util.DBHelper;
 import biz.BizException;
 
 

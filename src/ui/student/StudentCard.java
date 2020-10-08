@@ -5,7 +5,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
-import Util.io.IOHelper;
+import util.IOHelper;
 import bean.Student;
 import biz.StudentBiz;
 import swing2swt.layout.BorderLayout;
@@ -105,7 +105,6 @@ public class StudentCard {
 				fileName = IOHelper.retFileName(url);
 
 				try {
-
 					// IOHelper.copyFile(url, System.getProperty("user.dir") + "\\src\\img\\" +
 					// fileName);
 					IOHelper.copyFile(url, "D:\\stuImg\\" + fileName);
@@ -227,6 +226,7 @@ public class StudentCard {
 				cd.setEmail(text_7.getText());
 				cd.setName(name);
 				cd.open();
+				query(name);
 			}
 		});
 		button.setText("修改邮箱");
@@ -235,7 +235,7 @@ public class StudentCard {
 		new Label(composite_1, SWT.NONE);
 		new Label(composite_1, SWT.NONE);
 		new Label(composite_1, SWT.NONE);
-		
+
 		Button button_3 = new Button(composite_1, SWT.NONE);
 		button_3.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -301,6 +301,7 @@ public class StudentCard {
 		inMoneyDialog inmg = new inMoneyDialog(shell, SWT.NONE);
 		inmg.setName(name);
 		inmg.open();
+		query(name);
 	}
 
 	String[] college = new String[] { "计信学院", "经管学院", "材化学院", "数能学院", "电信学院", "建工学院", "外国语学院", "机械学院" };
@@ -323,16 +324,15 @@ public class StudentCard {
 	public void changeImg() {
 		String url = "", fileName = null;
 		FileDialog fileselect = new FileDialog(shell);
-		fileselect.setFilterPath("F:\\java\\eclipse-workspace\\Yc-s1\\src\\img");// 设置默认的路径
+		fileselect.setFilterPath("C:\\Users\\King\\Pictures");// 设置默认的路径
 		fileselect.setText("选择图片");// 设置对话框的标题
-		fileselect.setFilterNames(new String[] { "文本文件 (*.jpg*)", "所有文件(*.*)" });// 设置扩展名
+		fileselect.setFilterNames(new String[] { "图片 (*.jpg*)", "所有文件(*.*)" });// 设置扩展名
 		fileselect.setFilterExtensions(new String[] { "*.jpg", "*.*" });// 设置文件扩展名
 
 		fileName = IOHelper.retFileName(url);
 		url = fileselect.open();
 		try {
 			IOHelper.copyFile(url, System.getProperty("user.dir") + "\\img\\" + fileName);
-
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		}

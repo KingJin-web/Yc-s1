@@ -1,6 +1,4 @@
-package Util.sql;
-
-import Util.io.IOHelper;
+package util;
 
 import java.lang.reflect.Field;
 import java.sql.*;

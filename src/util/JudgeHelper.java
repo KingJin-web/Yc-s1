@@ -1,6 +1,4 @@
-package Util;
-
-import biz.BizException;
+package util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,7 +14,9 @@ public class JudgeHelper {
      * @return 是便ture不是便false
      */
     public boolean isEmail(String email) {
-        if (email == null || email.trim().isEmpty())
+        email  = email.trim();//去末尾的空格
+        System.out.println(email);
+        if (email.isEmpty())
             return false;
         String rule = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
         Pattern pattern;
@@ -35,14 +35,14 @@ public class JudgeHelper {
      * @param str 字符串
      * @return
      */
-    public boolean isNumber(String str) {
+    public static boolean isNumber(String str) {
         Pattern pattern = Pattern.compile("[0-9]+");
         Matcher matcher = pattern.matcher((CharSequence) str);
         boolean result = matcher.matches();
         if (result) {
             return true;
         } else {
-            return true;
+            return false;
         }
     }
 

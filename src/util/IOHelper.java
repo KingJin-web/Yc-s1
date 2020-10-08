@@ -1,4 +1,6 @@
-package Util.io;
+package util;
+
+import biz.BizException;
 
 import java.io.*;
 
@@ -114,11 +116,13 @@ public class IOHelper {
      * @param fName
      * @return
      */
-    public static String retFileName(String fName) {
+    public static String retFileName(String fileUrl) throws BizException {
 
-        File tempFile = new File(fName.trim());
+        if (fileUrl == null){
+            throw new BizException("密码为空 ! ");
+        }
+        File tempFile = new File(fileUrl.trim());
         String fileName = tempFile.getName();
-        System.out.println("fileName = " + fileName);
         return fileName;
 ////      方法二：
 //        fName = fName.trim();
@@ -127,7 +131,7 @@ public class IOHelper {
 //        System.out.println("方法二：fileName = " + fileName);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, BizException {
 //		String classPath = StudentCard.class.getResource("").getPath();
 //		String projectPath = System.getProperty("user.dir");
 //		System.out.println(classPath);

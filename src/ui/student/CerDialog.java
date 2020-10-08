@@ -12,8 +12,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Text;
-import Util.io.IOHelper;
-import Util.sql.DBHelper;
+import util.IOHelper;
+import util.DBHelper;
 import biz.BizException;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.layout.FormLayout;
@@ -192,10 +192,10 @@ public class CerDialog extends Dialog {
 	 */
 	protected void intoCer() throws BizException, IOException {
 
-		if (imgFile.equals(null)) {
+		if (imgFile == null) {
 			throw new BizException("请选择证书 ! ");
 		}
-		
+
 		if (text.getText() == null || text.getText().trim().isEmpty() ) {
 			throw new BizException("请输入证书名称 ! ");
 		}

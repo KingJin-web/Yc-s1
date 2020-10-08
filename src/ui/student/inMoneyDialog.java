@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.eclipse.swt.SWT;
 import org.eclipse.wb.swt.SWTResourceManager;
-import Util.sql.DBHelper;
+import util.DBHelper;
 import biz.BizException;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Label;

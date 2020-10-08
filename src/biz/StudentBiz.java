@@ -1,7 +1,7 @@
 package biz;
 
-import Util.EmailHelper;
-import Util.sql.DBHelper;
+import util.EmailHelper;
+import util.DBHelper;
 import bean.Student;
 
 import javax.mail.MessagingException;
@@ -9,7 +9,6 @@ import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Scanner;
 
 public class StudentBiz {
     private static int radomInt = new Random().nextInt(999999);
@@ -25,11 +24,9 @@ public class StudentBiz {
         if (spw == null || spw.trim().isEmpty()) {
             throw new BizException("请输入密码! ");
         }
-
         // 需要基本的判断
         String sql = "select * from student where Sname=? and Spw=?";
         List<Map<String, Object>> list = new DBHelper().query(sql, sname, spw);
-
         if (list.size() == 1) {
             return true;
         } else {
@@ -52,42 +49,36 @@ public class StudentBiz {
     }
 
     /**
-     * UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值 修改密码
+     * 判断是否在这个用户里面
      *
-     * @param newPw1
-     * @param newPw2
+     * @param Sno
      * @return
+     * @throws BizException
      */
-    public boolean changePw(String sno, String newPw1, String newPw2, int YanZhengma)
-            throws BizException {
-
-        if (newPw1 == null || newPw1.trim().isEmpty()) {
-            throw new BizException("密码为空 ! ");
+    public boolean select(String Sno, int i) throws BizException {
+        String sql = "select * from student where Sname=? ";
+        List<Map<String, Object>> list = new DBHelper().query(sql, Sno);
+        System.out.println(list);
+        if (list.size() == 1) {
+            return true;
+        } else {
+            throw new BizException("您不是此用户表用户请重新选择 ");
         }
-        if (newPw2 == null || newPw2.trim().isEmpty()) {
-            throw new BizException("密码为空 ! ");
-        }
-        if (!newPw1.equals(newPw2)) {
-            throw new BizException("两次密码不一致请重新输入 ! ");
-        }
-        System.out.println(radomInt);
-        if (radomInt != YanZhengma) {
-            throw new BizException("验证码不一致请重新获取 ! ");
-        }
-        // UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值
-        String sql = "update student set spw = ? where sname = ?";
-        new DBHelper().update(sql, newPw1, sno);
-        return true;
     }
+
 
     /**
      * UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值
      * 修改密码
+     *
+     * @param sno
      * @param newPw1
      * @param newPw2
-     * @return 修改结果
+     * @param YanZhengma
+     * @return
+     * @throws BizException
      */
-    public int changePw(String name, String newPw1, String newPw2) throws BizException, GeneralSecurityException, MessagingException {
+    public boolean changePw(String sno, String newPw1, String newPw2, int YanZhengma) throws BizException {
         StudentBiz studentBiz = new StudentBiz();
 
         if (newPw1 == null || newPw1.trim().isEmpty()) {
@@ -99,28 +90,27 @@ public class StudentBiz {
         if (!newPw1.equals(newPw2)) {
             throw new BizException("两次密码不一致请重新输入 ! ");
         }
-        radomInt = studentBiz.YanZhengma(name);
-        Scanner input = new Scanner(System.in);//创建一个键盘扫描类对象
-        System.out.print("请您输入内容:");
-        int YanZhengma = input.nextInt(); //输入整型
-        System.out.println(radomInt);
-        if (radomInt != YanZhengma) {
-            throw new BizException("验证码不一致请重新获取 ! ");
+        if (YanZhengma != 0) {
+            if (radomInt != YanZhengma) {
+                throw new BizException("验证码不一致请重新获取 ! ");
+            }
         }
-        //UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值
-        String sql = "update student set spw = ? where Sname = ?";
-        new DBHelper().update(sql, newPw1, name);
-        return 0;
+
+        String sql = "update student set spw = ? where sname = ?";
+        new DBHelper().update(sql, newPw1, sno);
+        return true;
     }
+
 
     /**
      * 发送验证码
+     *
      * @param name
      * @return 验证码
      * @throws GeneralSecurityException
      * @throws MessagingException
      */
-    public int YanZhengma(String name) throws GeneralSecurityException, MessagingException {
+    public int YanZhengma(String name) {
         radomInt = new Random().nextInt(999999);
         EmailHelper eh = new EmailHelper();
         String sql = "select * from student where Sname=? ";
@@ -129,10 +119,13 @@ public class StudentBiz {
         for (Student stu : list) {
             email = stu.getSma();
         }
-        System.out.println(email + " " + radomInt);
+        System.out.println("邮箱 " + email + "验证码 " + radomInt);
 
-        eh.email(email, String.valueOf(radomInt));
-
+        try {
+            eh.email(email, String.valueOf(radomInt));
+        } catch (MessagingException | GeneralSecurityException e) {
+            e.printStackTrace();
+        }
         return radomInt;
     }
 

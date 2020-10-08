@@ -1,4 +1,4 @@
-package Util;
+package util;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.*;
@@ -82,7 +82,7 @@ public class SwtHelper {
 	 * @param title 标题
 	 * @param msg 内容
 	 */
-	public static void mssage(String title, String msg, Shell shell) {
+	public static void message(String title, String msg, Shell shell) {
 		MessageBox mb = new MessageBox(shell);
 		mb.setText(title);
 		mb.setMessage(msg);
@@ -105,10 +105,14 @@ public class SwtHelper {
 		return confirm("系统提示", msg, shell);
 	}
 
-	public static void mssage(String msg, Shell shell) {
-		mssage("系统提示", msg, shell);
-	}
 
+	public static void message(String Message,Shell shell) {
+		MessageBox mb = new MessageBox(shell);
+		mb.setText("系统提示");
+		mb.setMessage(Message);
+		mb.open();
+
+	}
 	/**
 	 * 根据传入的 value 让 combo 控件选中指定选项
 	 * onlyEqualsValue == false 表示, 如果 value == null 那么就用显示值进行判断 ,
