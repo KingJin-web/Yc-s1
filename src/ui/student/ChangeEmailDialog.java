@@ -32,7 +32,7 @@ public class ChangeEmailDialog extends Dialog {
     private Text text;
     private Text text_1;
     private Text text_2;
-    private int radomInt;
+    private int radomInt = new Random().nextInt(999999);;
 
     private String email;
     private String name;
@@ -61,7 +61,7 @@ public class ChangeEmailDialog extends Dialog {
      */
     public ChangeEmailDialog(Shell parent, int style) {
         super(parent, style);
-        setText("SWT Dialog");
+        setText("修改邮箱");
     }
 
     /**
@@ -138,13 +138,16 @@ public class ChangeEmailDialog extends Dialog {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 try {
-                    changeEmail();
-                    shell.dispose();
+                    if (changeEmail()){
+                        shell.dispose();
+                    }
+
                 } catch (BizException e1) {
                     MessageBox msBox = new MessageBox(shell);
                     msBox.setText("系统提示");
                     msBox.setMessage(e1.getMessage());
                     msBox.open();
+
                 }
             }
         });
@@ -195,7 +198,6 @@ public class ChangeEmailDialog extends Dialog {
         try {
             radomInt = new Random().nextInt(999999);
             EmailHelper eh = new EmailHelper();
-
             System.out.println("邮箱：" + email + "验证码： " + radomInt);
             eh.email(email, String.valueOf(radomInt));
         } catch (MessagingException | GeneralSecurityException e) {
@@ -206,19 +208,20 @@ public class ChangeEmailDialog extends Dialog {
     }
 
     public boolean changeEmail() throws BizException {
-        int YanZhengma = 0;
+
         String email = text_2.getText().trim();
         String yzm = text_1.getText().trim();
         if (yzm == null || yzm.isEmpty()) {
             throw new BizException("请输入验证码 !");
         }
-        YanZhengma = Integer.valueOf(yzm);
+        int YanZhengma = Integer.parseInt(yzm);
         if (isEmail(email)) {
             if (radomInt != YanZhengma) {
                 throw new BizException("验证码不一致请重新获取 ! ");
             } else {
                 String sql = "update student set sma = ? where sname = ?";
                 new DBHelper().update(sql, email, name);
+                shell.dispose();
                 throw new BizException("修改成功");
             }
         } else {
@@ -240,18 +243,6 @@ public class ChangeEmailDialog extends Dialog {
             return true;
         else
             return false;
-
-    }
-
-    public boolean isNumber(String str) {
-        Pattern pattern = Pattern.compile("[0-9]+");
-        Matcher matcher = pattern.matcher((CharSequence) str);
-        boolean result = matcher.matches();
-        if (result) {
-            return true;
-        } else {
-            return true;
-        }
 
     }
 
