@@ -12,7 +12,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class StudentBiz {
-    private static int radomInt = 0;
+    private static int radomInt = new Random().nextInt(999999);;
 
     // 更改密码
     public void modifyPassword(String newPwd) {
