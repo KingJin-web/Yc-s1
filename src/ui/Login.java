@@ -138,7 +138,6 @@ public class Login {
 				name = text.getText();
 				if (login(name, text_1.getText())) {
 					Login.this.shell.dispose();
-					returnName();
 					new StudentCard().open();
 				} else {
 					System.out.println("沙雕登录都不会你玩个锤子");

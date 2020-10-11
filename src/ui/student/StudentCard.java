@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
+import ui.LoginWin;
 import util.IOHelper;
 import bean.Student;
 import biz.StudentBiz;
@@ -30,7 +31,7 @@ import util.SwtHelper;
 
 public class StudentCard {
 
-	private static String name = Login.returnName();
+	private static final String name = LoginWin.returnName();
 	protected Shell shell;
 	private Text text;
 	private Text text_1;
