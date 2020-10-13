@@ -112,23 +112,15 @@ public class IOHelper {
 
     /**
      * 返回文件名
-     *
-     * @param fName
-     * @return
+     * @param fileUrl 文件路径
+     * @return 文件名
      */
-    public static String retFileName(String fileUrl) throws BizException {
-
-        if (fileUrl == null){
-            throw new BizException("密码为空 ! ");
+    public static String retFileName(String fileUrl){
+        if(fileUrl==null || fileUrl.isEmpty()) {
+            return "";
         }
         File tempFile = new File(fileUrl.trim());
-        String fileName = tempFile.getName();
-        return fileName;
-////      方法二：
-//        fName = fName.trim();
-////      fileName = fName.substring(fName.lastIndexOf("/")+1);
-//        fileName = fName.substring(fName.lastIndexOf("\\") + 1);
-//        System.out.println("方法二：fileName = " + fileName);
+        return tempFile.getName();
     }
 
     public static void main(String[] args) throws IOException, BizException {
@@ -136,7 +128,7 @@ public class IOHelper {
 //		String projectPath = System.getProperty("user.dir");
 //		System.out.println(classPath);
 //		System.out.println(projectPath);
-        copyFile("E:\\吴沼淇\\1.jpg", System.getProperty("user.dir") + "\\img\\1.jpg");
-        retFileName("E:\\吴沼淇\\1.jpg");
+        //copyFile("E:\\吴沼淇\\1.jpg", System.getProperty("user.dir") + "\\img\\1.jpg");
+        System.out.println(retFileName("D:\\吴沼淇\\1.jpg"));
     }
 }

@@ -115,6 +115,7 @@ public class EmailDialog extends Dialog {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				reEmail();
+				query();
 			}
 		});
 		btnNewButton.setText("回复");

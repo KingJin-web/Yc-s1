@@ -12,14 +12,6 @@ public class AdminBiz {
 	private DBHelper dbh = new DBHelper();
 
 	public boolean login(String aname, String apwd) throws BizException {
-		if (aname == null || aname.trim().isEmpty()) {
-			throw new BizException("请输入用户名！");
-		}
-
-		if (apwd == null || apwd.trim().isEmpty()) {
-			throw new BizException("请输入密码！");
-		}
-
 		String sql = "select * from admin where aname=? and apwd=?";
 		List<Map<String, Object>> list = new DBHelper().query(sql, aname, apwd);
 		if (list.size() == 1) {

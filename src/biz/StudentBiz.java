@@ -12,19 +12,11 @@ import java.util.Random;
 
 public class StudentBiz {
     private static int radomInt = new Random().nextInt(999999);
-    ;
+
 
 
     // 验证账号密码合法性然后登陆
     public boolean login(String sname, String spw) throws BizException {
-        if (sname == null || sname.trim().isEmpty()) {
-            throw new BizException("请输入用户名 ! ");
-        }
-
-        if (spw == null || spw.trim().isEmpty()) {
-            throw new BizException("请输入密码! ");
-        }
-        // 需要基本的判断
         String sql = "select * from student where Sname=? and Spw=?";
         List<Map<String, Object>> list = new DBHelper().query(sql, sname, spw);
         if (list.size() == 1) {

@@ -30,6 +30,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Combo;
 import util.DBHelper;
+import util.SwtHelper;
 
 public class AdminWin {
 
@@ -61,6 +62,7 @@ public class AdminWin {
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
+		SwtHelper.center(shell);
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {

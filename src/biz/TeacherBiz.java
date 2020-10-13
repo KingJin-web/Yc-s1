@@ -23,9 +23,10 @@ public class TeacherBiz {
     	DBHelper dbh = null;
     	try {
 	    	dbh = new DBHelper();
-	    	String sql = "select * from student where 1 = 1 ";
+			String sql = "select * from student where 1 = 1 and state <> 2 ";
+
 	    	List<Object> params = new ArrayList<>();
-	    	if(student.getSname() != null && student.getSname().trim().isEmpty() == false ) {
+	    	if(student.getSname() != null && !student.getSname().trim().isEmpty()) {
 	    		sql += "and Sname like ? ";
 	    		params.add("%" + student.getSname() + "%");
 	    	}
@@ -33,7 +34,7 @@ public class TeacherBiz {
 	    		sql += "and Sno = ? ";
 	    		params.add( student.getSno());
 	    	}
-	    	if(student.getSclass() != null && student.getSclass().trim().isEmpty() == false ) {
+	    	if(student.getSclass() != null && !student.getSclass().trim().isEmpty()) {
 	    		sql += "and Sclass like ? ";
 	    		params.add("%" + student.getSclass() + "%");
 	    	}
@@ -44,7 +45,8 @@ public class TeacherBiz {
 	    	Object[] pArray = params.toArray();
 			return dbh.query(sql,Student.class,pArray);
     	}finally {
-    		dbh.close();
+			assert dbh != null;
+			dbh.close();
     	}
     }
 
@@ -64,14 +66,6 @@ public class TeacherBiz {
 	}
 
 	public boolean login(String tname, String tpw) throws BizException {
-		if (tname == null || tname.trim().isEmpty()) {
-			throw new BizException("请输入用户名！");
-		}
-
-		if (tpw == null || tpw.trim().isEmpty()) {
-			throw new BizException("请输入密码！");
-		}
-
 		String sql = "select * from teacher where tname = ? and tpw = ?";
 		List<Map<String, Object>> list = new DBHelper().query(sql, tname, tpw);
 		if (list.size() == 1) {

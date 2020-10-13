@@ -24,6 +24,7 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
 import util.DBHelper;
+import util.SwtHelper;
 
 public class CerDialog extends Dialog {
 	
@@ -54,6 +55,7 @@ public class CerDialog extends Dialog {
 	 */
 	public Object open() {
 		createContents();
+		SwtHelper.center(shell);
 		shell.open();
 		shell.layout();
 		Display display = getParent().getDisplay();
@@ -107,6 +109,7 @@ public class CerDialog extends Dialog {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				LookZs();
+				getStuCer();
 			}
 		});
 		button.setText("查看详情");
