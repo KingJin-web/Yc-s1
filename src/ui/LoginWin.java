@@ -37,6 +37,7 @@ import ui.Admin.AdminWin;
 import ui.student.StudentCard;
 import ui.teacher.MainWin;
 import util.HelpWin;
+import util.IOHelper;
 import util.SwtHelper;
 import util.generateCode;
 
@@ -46,6 +47,7 @@ public class LoginWin {
     private Text textNo;
     private Text textPwd;
     public static String name;
+    private String dir = "D:\\stuImg\\验证码\\";//存放验证码的路径 外部路径
 
     private StudentBiz sBiz = new StudentBiz();
     private TeacherBiz tBiz = new TeacherBiz();
@@ -63,7 +65,9 @@ public class LoginWin {
     public static void main(String[] args) {
         try {
             LoginWin window = new LoginWin();
+            window.grtCode();
             window.open();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,7 +92,7 @@ public class LoginWin {
      * Create contents of the window.
      */
     protected void createContents() {
-        grtCode();
+
         shell = new Shell();
         shell.setImage(SWTResourceManager.getImage(LoginWin.class, "/imges/login.jpg"));
         shell.setSize(410, 449);
@@ -158,30 +162,41 @@ public class LoginWin {
                 try {
                     if (name == null || name.isEmpty()) {
                         SwtHelper.message("请输入用户名 !", shell);
+                        grtCode();
+                        btnNewButton_2.setImage(SWTResourceManager.getImage(url));
                         return;
                     }
                     if (pwd.isEmpty()) {
                         SwtHelper.message("请输入密码 !", shell);
+                        grtCode();
+                        btnNewButton_2.setImage(SWTResourceManager.getImage(url));
                         return;
                     }
                     if (str.isEmpty()) {
                         SwtHelper.message("请选择登录权限 !", shell);
+                        grtCode();
+                        btnNewButton_2.setImage(SWTResourceManager.getImage(url));
                         return;
                     }
                     if (code.isEmpty()) {
                         SwtHelper.message("请输入验证码 !", shell);
+                        grtCode();
+                        btnNewButton_2.setImage(SWTResourceManager.getImage(url));
                         return;
                     }
                     if (Code.equals(code.toUpperCase())) {
                         System.out.println("验证码正确");
                         if ((str.equals("学生")) && (sBiz.select(name, 1)) && sBiz.login(name, pwd)) {
                             LoginWin.this.shell.dispose();
+                            IOHelper.delAllFile(dir);
                             new StudentCard().open();
                         } else if (str.equals("教师") && tBiz.select(name) && tBiz.login(name, pwd)) {
                             LoginWin.this.shell.dispose();
+                            IOHelper.delAllFile(dir);
                             new MainWin().open();
                         } else if (str.equals("管理员") && aBiz.login(name, pwd)) {
                             LoginWin.this.shell.dispose();
+                            IOHelper.delAllFile(dir);
                             new AdminWin().open();
                         }
                     } else {
@@ -191,8 +206,8 @@ public class LoginWin {
                     }
 
                 } catch (BizException e1) {
-                    SwtHelper.message(e1.getMessage(), shell);
                     grtCode();
+                    SwtHelper.message(e1.getMessage(), shell);
                     btnNewButton_2.setImage(SWTResourceManager.getImage(url));
                 }
             }
@@ -299,7 +314,9 @@ public class LoginWin {
     }
 
     public String grtCode() {
-        url = "src//imges//" + System.currentTimeMillis() + ".jpg";
+
+        url = dir + System.currentTimeMillis() + ".jpg";
+
         File file = new File(url);
         FileOutputStream out = null;
         try {
@@ -316,6 +333,7 @@ public class LoginWin {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return url;
     }
 
