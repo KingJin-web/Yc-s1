@@ -3,8 +3,12 @@ package biz;
 import util.EmailHelper;
 import util.DBHelper;
 import bean.Student;
+import util.IOHelper;
+import util.ImageUtil;
 
 import javax.mail.MessagingException;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Map;
@@ -12,12 +16,11 @@ import java.util.Random;
 
 public class StudentBiz {
     private static int radomInt = new Random().nextInt(999999);
-
-
+    private final DBHelper dbh = new DBHelper();
 
     // 验证账号密码合法性然后登陆
     public boolean login(String sname, String spw) throws BizException {
-        String sql = "select * from student where Sname=? and Spw=?";
+        String sql = "select * from student where sname=? and spw=?";
         List<Map<String, Object>> list = new DBHelper().query(sql, sname, spw);
         if (list.size() == 1) {
             return true;
@@ -34,13 +37,29 @@ public class StudentBiz {
      * @return 学生信息list
      */
     public List<Student> select(String sname) {
-        String sql = "select * from student where 1 = 1 and Sname=?";
+        String sql = "select * from student where 1 = 1 and sname=?";
         List<Student> list = new DBHelper().query(sql, Student.class, sname);
         System.out.println(list);
         return list;
     }
 
     /**
+     * 显示学生信息
+     *
+     * @return 学生信息list
+     */
+    public List<Map<String, Object>> selectByName(String sname) {
+        String sql = "select sno,sname,ssex,sage,sclass,smo,sma,imgFile ,c.Cna from student s, college c where 1 = 1 and sname= ? and c.Cid=s.Cid";
+        List<Map<String, Object>> list = new DBHelper().query(sql, sname);
+
+        String Path = "D:\\stuImg\\";
+        sql = "select photo,imgFile from student where sname = ?";
+        dbh.readDB2Image(sql,Path,sname);
+        return list;
+    }
+
+
+    /*
      * 判断是否在这个用户里面
      *
      * @param Sno
@@ -49,8 +68,7 @@ public class StudentBiz {
      */
     public boolean select(String Sno, int i) throws BizException {
         String sql = "select * from student where Sname=? ";
-        List<Map<String, Object>> list = new DBHelper().query(sql, Sno);
-        System.out.println(list);
+        List<Student> list = new DBHelper().query(sql, Student.class, Sno);
         if (list.size() == 1) {
             return true;
         } else {
@@ -123,13 +141,9 @@ public class StudentBiz {
 
     public static void main(String[] args) throws BizException, GeneralSecurityException, MessagingException {
         StudentBiz studentBiz = new StudentBiz();
-//        List<Student> list = studentBiz.select("蔡徐坤");
-//        String email = null;
-//        for (Student stu : list) {
-//            email = stu.getSma();
-//        }
-//        System.out.println(email);
-        studentBiz.RetFile("钟浣文");
+
+        //studentBiz.RetFile("钟浣文");
+        System.out.println(studentBiz.selectByName("陈栋"));
     }
 
     /**
@@ -149,14 +163,23 @@ public class StudentBiz {
         return File;
     }
 
-    //UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值
-    public void updaeImg(String fileName, String name) {
-        String sql = "update student set imgFile = ? where Sname = ?";
-        DBHelper dbh = new DBHelper();
-        dbh.update(sql, fileName, name);
+    public void updateImg(String url, String name, String fileName) {
+//        String sql = "update student set imgFile = ? where Sname = ?";
+
+//        dbh.update(sql, fileName, name);
+
+        String path = url;
+        FileInputStream in = null;
+        try {
+            in = ImageUtil.readImage(path);
+            String sql = "UPDATE student set imgFile = ?, photo = ? where sname = ?";
+            dbh.update(sql,fileName, in, name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            IOHelper.close(in);
+        }
+
     }
-
-    String[] college = new String[]{"外国语学院", "建工学院", "数能学院", "机械学院", "材化学院", "电信学院", "经管学院", "计信学院"};
-
 
 }

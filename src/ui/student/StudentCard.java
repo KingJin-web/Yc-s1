@@ -1,12 +1,11 @@
 package ui.student;
 
-
-import biz.BizException;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
 import ui.LoginWin;
+import util.DBHelper;
 import util.IOHelper;
 import bean.Student;
 import biz.StudentBiz;
@@ -15,6 +14,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
@@ -99,6 +99,7 @@ public class StudentCard {
         button_1.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
+                //实现文件选择 并且上传数据库
                 StudentBiz sb = new StudentBiz();
                 String url = null, fileName = null;
                 FileDialog fileselect = new FileDialog(shell);
@@ -108,18 +109,16 @@ public class StudentCard {
                 fileselect.setFilterExtensions(new String[]{"*.jpg", "*.*"});// 设置文件扩展名
                 url = fileselect.open();
 
-
                 try {
-                    if ( url == null ||  url.isEmpty()) {
-
-                    }else {
+                    out:if (url == null || url.isEmpty()) {
+                        break out;
+                    } else {
                         fileName = IOHelper.retFileName(url);
                         IOHelper.copyFile(url, "D:\\stuImg\\" + fileName);
-                        sb.updaeImg(fileName, name);
+                        sb.updateImg(url, name, fileName);
                         query(name);
                     }
-
-                } catch (Exception Exception) {
+                } catch (IOException Exception) {
                     SwtHelper.message(Exception.getMessage(), shell);
                 } finally {
                     lblNewLabel.setImage(SWTResourceManager.getImage("D:\\stuImg\\" + new StudentBiz().RetFile(name)));
@@ -271,7 +270,6 @@ public class StudentCard {
             public void widgetSelected(SelectionEvent e) {
 
                 StudentCard.this.shell.dispose();
-                returnName();
                 new CertificateWin().open();
 
             }
@@ -302,7 +300,6 @@ public class StudentCard {
         btnNewButton_1.setText("校长信箱");
         query(name);
 
-
     }
 
     protected void inMoney() {
@@ -312,21 +309,26 @@ public class StudentCard {
         query(name);
     }
 
-    String[] college = new String[]{"计信学院", "经管学院", "材化学院", "数能学院", "电信学院", "建工学院", "外国语学院", "机械学院"};
-
+    /**
+     * [{sno=103, sname=陈栋, ssex=女, sage=19, sclass=1, smo=98.66,
+     * sma=1846132633@qq.com, imgFile=陈栋.JPG, Cna=计信学院}]
+     *
+     * @param sname
+     */
     public void query(String sname) {
         StudentBiz sBiz = new StudentBiz();
-        List<Student> list = sBiz.select(sname);
-        for (Student student : list) {
-            text.setText(student.getSname());
-            text_1.setText(college[student.getCid() - 1]);
-            text_2.setText(student.getSclass());
-            text_3.setText(String.valueOf(student.getSno()));
-            text_4.setText(String.valueOf(student.getSmo()));
-            text_5.setText(student.getSsex());
-            text_6.setText(String.valueOf(student.getSage()));
-            text_7.setText(student.getSma());
+        List<Map<String, Object>> list = sBiz.selectByName(sname);
+        for (Map<String, Object> map : list) {
+            text.setText((String) map.get("sname"));
+            text_1.setText((String) map.get("Cna"));
+            text_2.setText((String) map.get("sclass"));
+            text_3.setText(map.get("sno").toString());
+            text_4.setText(map.get("smo").toString());
+            text_5.setText((String) map.get("ssex"));
+            text_6.setText(map.get("sage").toString());
+            text_7.setText((String) map.get("sma"));
         }
+
     }
 
     public void changeImg() {

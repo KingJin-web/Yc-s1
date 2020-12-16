@@ -1,5 +1,8 @@
 package util;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.*;
@@ -91,8 +94,7 @@ public class DBHelper {
      * 无参的构造方法, 可以注释掉了
      */
     public DBHelper() {
-        // 在构造方法中创建连接
-        //conn = openConnection();
+
     }
 
     // 关闭连接
@@ -111,7 +113,7 @@ public class DBHelper {
      * @return
      */
     public Connection openConnection() {
-        //String url = "jdbc:oracle:thin:@39.107.46.233:1521:orcl"; // 数据库的地址
+
 //        String DB_URL = "jdbc:mysql://kingmysql.mysql.rds.aliyuncs.com:3306/ycs1";
 //        // 数据库的用户名与密码，需要根据自己的设置
 //        String USER = "ycs1";
@@ -166,6 +168,7 @@ public class DBHelper {
         }
     }
 
+
     /**
      * 执行查询语句
      *
@@ -216,6 +219,78 @@ public class DBHelper {
         }
     }
 
+    // 将图片插入数据库
+    public void readImage2DB() {
+        String path = "D:/1.png";
+        PreparedStatement ps = null;
+        FileInputStream in = null;
+        try {
+            in = ImageUtil.readImage(path);
+            conn = openConnection();
+            String sql = "insert into photo (id,name,photo)values(?,?,?)";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, 1);
+            ps.setString(2, "Tom");
+            ps.setBinaryStream(3, in, in.available());
+            int count = ps.executeUpdate();
+            if (count > 0) {
+                System.out.println("插入成功！");
+            } else {
+                System.out.println("插入失败！");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            IOHelper.close(conn);
+            if (null != ps) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    public static void main(String[] args) {
+        String path = "C:\\Users\\King\\Pictures\\psc.png";
+        FileInputStream in = null;
+        try {
+            in = ImageUtil.readImage(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String sql = "UPDATE student set photo = ? where sname = ?";
+        DBHelper dbHelper = new DBHelper();
+
+        dbHelper.update(sql, in, "陈栋");
+
+    }
+
+    // 读取数据库中图片 输出到指定路径中
+    public void readDB2Image(String sql,String targetPath, String sname) {
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = openConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, sname);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String imgFile = rs.getString("imgFile");
+                InputStream in = rs.getBinaryStream("photo");
+                ImageUtil.readBin2Image(in, targetPath + "\\" + imgFile);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            IOHelper.close(conn, rs, ps);
+
+        }
+    }
+
     /**
      * 返回值的类型是可变的类型, 所有的集合==> 泛型类
      * query 方法改造成 泛型方法	: 语法的定义: 在方法前用 <E>
@@ -261,15 +336,6 @@ public class DBHelper {
                         // 转小写
                         // 获取该类定义的属性(包括私有)
                         Field field = cls.getDeclaredField(columnName);
-                        // 获取当前列的值
-                        /**
-                         *  ID ==> JDBC 数据类型 : BigDecimal 大实数 表示任意大小的数字
-                         *  	  	    实体类类型: Long
-                         *  .getType 获取属性的类型  ==> LONG  String  Integer
-                         */
-                        // 从结果取出的数值
-                        //Object value = rs.getObject(i+1);
-                        // 要转换的数值
                         Object destValue = null;
                         // 一定要判断非空, 否则会导致类型转换错误
 //						if(value==null) {
@@ -277,23 +343,24 @@ public class DBHelper {
 //						}
                         if (field.getType().equals(Long.class)) {
                             destValue = rs.getLong(i + 1);
-                            //destValue = Long.valueOf(value + "");
+
                         } else if (field.getType().equals(Integer.class)) {
                             destValue = rs.getInt(i + 1);
-                            //destValue = Integer.valueOf(value + "");
+
                         } else if (field.getType().equals(Double.class)) {
                             destValue = rs.getDouble(i + 1);
-                            //destValue = Double.valueOf(value + "");
+
                         } else if (field.getType().equals(Byte.class)) {
                             destValue = rs.getByte(i + 1);
-                            //destValue = Byte.valueOf(value + "");
+
                         } else if (field.getType().equals(Boolean.class)) {
                             destValue = rs.getBoolean(i + 1);
-                            //destValue = Boolean.valueOf(value + "");
+
                         } else if (field.getType().equals(Timestamp.class)) {
                             destValue = rs.getTimestamp(i + 1);
-                            //destValue = Byte.valueOf(value + "");
 
+                        } else if (field.getType().equals(InputStream.class)) {
+                            destValue = rs.getBinaryStream(i + 1);
                             // 其他数据类型请自行添加
                         } else {
                             destValue = rs.getObject(i + 1);
@@ -480,61 +547,6 @@ public class DBHelper {
             return entry.getValue();
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-
-        DBHelper dbhelper = new DBHelper();
-
-        // params = {1,2}
-        // dbhelper.update("update dept set dname=? where deptno=?", "人力部", 60);
-        // params = {1,2,3}
-        // dbhelper.update("update dept set dname=?,loc=? where deptno=?",
-        // "人力部", "衡阳", 60);
-        // params = {}
-        // dbhelper.update("update dept set dname='技术部',loc='师院' where
-        // deptno=60");
-        System.out.println("=========================");
-        List<Map<String, Object>> list = dbhelper.query("select * from emp");
-        for (Map<String, Object> map : list) {
-            System.out.println(map);
-        }
-
-        System.out.println("=========================");
-        list = dbhelper.query("select * from emp where ename like ?", "%S%");
-        for (Map<String, Object> map : list) {
-            System.out.println(map);
-        }
-
-        System.out.println("=========================");
-        list = dbhelper.query("select * from emp where ename like ? " + " and sal > ? ", "%S%", 1250);
-        for (Map<String, Object> map : list) {
-            System.out.println(map);
-        }
-
-        System.out.println("==========1====5===========");
-        list = dbhelper.queryPage("select * from emp", 1, 5);
-        for (Map<String, Object> map : list) {
-            System.out.println(map);
-        }
-
-        System.out.println("==========2====5===========");
-        list = dbhelper.queryPage("select * from emp", 2, 5);
-        for (Map<String, Object> map : list) {
-            System.out.println(map);
-        }
-
-        System.out.println("==========3====5===========");
-        list = dbhelper.queryPage("select * from emp", 3, 5);
-        for (Map<String, Object> map : list) {
-            System.out.println(map);
-        }
-
-        System.out.println("==========1====5====7521=======");
-        list = dbhelper.queryPage("select * from emp where empno > ? ", 1, 5, 7521);
-        for (Map<String, Object> map : list) {
-            System.out.println(map);
-        }
     }
 
     /**

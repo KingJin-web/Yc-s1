@@ -23,11 +23,7 @@ public class JudgeHelper {
         Matcher matcher;
         pattern = Pattern.compile(rule);
         matcher = pattern.matcher(email);
-        if (matcher.matches()) {
-            return true;
-        } else {
-            return false;
-        }
+        return matcher.matches();
     }
 
     /**
@@ -38,12 +34,7 @@ public class JudgeHelper {
     public static boolean isNumber(String str) {
         Pattern pattern = Pattern.compile("[0-9]+");
         Matcher matcher = pattern.matcher((CharSequence) str);
-        boolean result = matcher.matches();
-        if (result) {
-            return true;
-        } else {
-            return false;
-        }
+        return matcher.matches();
     }
 
     public static void main(String[] args) {

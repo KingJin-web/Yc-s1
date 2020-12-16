@@ -431,8 +431,7 @@ public class AdminWin {
 			return "字符串 :---->" + str + "<---- 中不存在 " + strEnd + ", 无法截取目标字符串";
 		}
 		/* 开始截取 */
-		String result = str.substring(strStartIndex, strEndIndex).substring(strStart.length());
-		return result;
+		return str.substring(strStartIndex, strEndIndex).substring(strStart.length());
 	}
 
 	protected void query(String sname, String stuno, String sclass, int stucid) {
@@ -442,7 +441,7 @@ public class AdminWin {
 			if (stuno == null || stuno.trim().isEmpty()) {
 				sno = 0;
 			} else {
-				sno = Integer.valueOf(stuno);
+				sno = Integer.parseInt(stuno);
 			}
 
 			Student stu = new Student();

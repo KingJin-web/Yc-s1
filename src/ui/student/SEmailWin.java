@@ -227,8 +227,8 @@ public class SEmailWin {
             table.removeAll();
             for (PEmail pe : list) {
                 TableItem tbItem = new TableItem(table, SWT.NONE);
-                tbItem.setText(new String[]{"" + pe.getmtime(), "" + pe.getSmessage(), "" + pe.getptime(),
-                        "" + pe.getpPreply()});
+                tbItem.setText(new String[]{"" + pe.getMtime(), "" + pe.getSmessage(), "" + pe.getPtime(),
+                        "" + pe.getPpreply()});
 
             }
         } catch (Exception e) {

@@ -3,6 +3,7 @@ package ui;
 import biz.StudentBiz;
 
 
+
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -23,14 +24,12 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.*;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import ui.Admin.AdminWin;
@@ -49,9 +48,9 @@ public class LoginWin {
     public static String name;
     private String dir = "D:\\stuImg\\验证码\\";//存放验证码的路径 外部路径
 
-    private StudentBiz sBiz = new StudentBiz();
-    private TeacherBiz tBiz = new TeacherBiz();
-    private AdminBiz aBiz = new AdminBiz();
+    private final StudentBiz sBiz = new StudentBiz();
+    private final TeacherBiz tBiz = new TeacherBiz();
+    private final AdminBiz aBiz = new AdminBiz();
     private Text text;
     private String url = "src//imges//1602326102963.jpg";
     private String Code = "T8MN";

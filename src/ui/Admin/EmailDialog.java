@@ -159,13 +159,13 @@ public class EmailDialog extends Dialog {
 
 	public void query() {
 		try {
-			String sql = "select * from pmail where pPreply is null order by mTime desc";
+			String sql = "select * from pmail where ppreply is null order by mTime desc";
 			DBHelper dbh = new DBHelper();
 			List<PEmail> list = dbh.query(sql, PEmail.class);
 			table.removeAll();
 			for (PEmail pe : list) {
 				TableItem tbItem = new TableItem(table, SWT.NONE);
-				tbItem.setText(new String[] { "" + pe.getSname(), "" + pe.getSmessage(), "" + pe.getmtime() });
+				tbItem.setText(new String[] { "" + pe.getSname(), "" + pe.getSmessage(), "" + pe.getMtime() });
 
 			}
 
@@ -175,7 +175,7 @@ public class EmailDialog extends Dialog {
 	}
 
 	public void back(String nr,String message) {
-		String sql = "update pmail set ppreply=? , ptime=now() where sMessage=?";
+		String sql = "update pmail set ppreply=? , ptime=now() where smessage=?";
 		DBHelper dbh = new DBHelper();
 		dbh.update(sql, nr,message);
 		

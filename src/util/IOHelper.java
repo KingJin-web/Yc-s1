@@ -1,7 +1,6 @@
 package util;
 
 import biz.BizException;
-
 import java.io.*;
 
 /**
@@ -17,11 +16,6 @@ public class IOHelper {
      */
     public static void close(AutoCloseable c) {
         if (c != null) {
-            /**
-             * 	关于如何打开错误解决窗口
-             * 	1, 鼠标停在 报错 点上, org.eclipse 会给出解决方案, 其中就包括 try
-             * 	2, 光标停在 报错 点上  ctrl + 1
-             */
             try {
                 c.close();
             } catch (Exception e) {
@@ -29,24 +23,24 @@ public class IOHelper {
             }
         }
     }
-
-    public static void close(Closeable... c) {
-        for (Closeable closeable : c) {
+    public static void close(Closeable c) {
+        if (c != null) {
             try {
-                closeable.close();
-            } catch (IOException e) {
+                c.close();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+    public static void close(Closeable... c) {
+        for (Closeable closeable : c) {
+            close(closeable);
         }
     }
 
     public static void close(AutoCloseable... c) {
         for (AutoCloseable autoCloseable : c) {
-            try {
-                autoCloseable.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                close(autoCloseable);
         }
     }
 
@@ -139,19 +133,16 @@ public class IOHelper {
      * 删除文件，可以是单个文件或文件夹
      *
      * @param fileName 待删除的文件名
-     * @return 文件删除成功返回true, 否则返回false
      */
-    public static boolean delete(String fileName) {
+    public static void delete(String fileName) {
         File file = new File(fileName);
         if (!file.exists()) {
             System.out.println("删除文件失败：" + fileName + "文件不存在");
-            return false;
         } else {
             if (file.isFile()) {
-
-                return deleteFile(fileName);
+                deleteFile(fileName);
             } else {
-                return deleteDirectory(fileName);
+                deleteDirectory(fileName);
             }
         }
     }

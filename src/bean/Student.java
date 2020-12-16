@@ -1,6 +1,9 @@
 package bean;
 
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+
 public class Student {
     private int sid;  //学生id
     private int sno; //学号
@@ -14,7 +17,7 @@ public class Student {
     private String sma;
     private String imgfile;
     private Integer state;
-
+	private InputStream photo;
 
     @Override
     public String toString() {
