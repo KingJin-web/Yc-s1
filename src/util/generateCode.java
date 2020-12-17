@@ -20,12 +20,16 @@ import javax.imageio.ImageIO;
 public class generateCode {
     private static final int width = 150;// 定义图片的width
     private static final int height = 48;// 定义图片的height
-    private static final int codeCount = 4;// 定义图片上显示验证码的个数
+    private static final int codeCount = 5;// 定义图片上显示验证码的个数
     private static final int xx = 25;
     private static final int fontHeight = 42;
     private static final int codeY = 42;
-    private static final char[] codeSequence = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
-            'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    private static final char[] codeSequence = {
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+            'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+            's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
     /**
      * 生成一个map集合
@@ -66,7 +70,7 @@ public class generateCode {
         // 随机产生codeCount数字的验证码。
         for (int i = 0; i < codeCount; i++) {
             // 得到随机产生的验证码数字。
-            String code = String.valueOf(codeSequence[random.nextInt(36)]);
+            String code = String.valueOf(codeSequence[random.nextInt(codeSequence.length)]);
             // 产生随机的颜色分量来构造颜色值，这样输出的每位数字的颜色值都将不同。
             red = random.nextInt(255);
             green = random.nextInt(255);

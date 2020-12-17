@@ -3,7 +3,6 @@ package ui;
 import biz.StudentBiz;
 
 
-
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -16,9 +15,11 @@ import org.eclipse.swt.widgets.Label;
 
 
 import java.awt.image.RenderedImage;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -53,7 +54,7 @@ public class LoginWin {
     private final AdminBiz aBiz = new AdminBiz();
     private Text text;
     private String url = "src//imges//1602326102963.jpg";
-    private String Code = "T8MN";
+    private String Code = "T8mN";
     private Button btnNewButton_2;
 
     /**
@@ -78,8 +79,10 @@ public class LoginWin {
     public void open() {
         Display display = Display.getDefault();
         createContents();
+        SwtHelper.center(shell);
         shell.open();
         shell.layout();
+
         while (!shell.isDisposed()) {
             if (!display.readAndDispatch()) {
                 display.sleep();
@@ -183,7 +186,8 @@ public class LoginWin {
                         btnNewButton_2.setImage(SWTResourceManager.getImage(url));
                         return;
                     }
-                    if (Code.equals(code.toUpperCase())) {
+                    //A.equalsIgnoreCase(B)
+                    if (Code.equalsIgnoreCase(code)) {
                         System.out.println("验证码正确");
                         if ((str.equals("学生")) && (sBiz.select(name, 1)) && sBiz.login(name, pwd)) {
                             LoginWin.this.shell.dispose();
@@ -222,6 +226,8 @@ public class LoginWin {
         btnNewButton_1.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
+                //清空，目录中的验证码图片
+                IOHelper.delAllFile(dir);
                 shell.dispose();
             }
         });
@@ -297,9 +303,8 @@ public class LoginWin {
         btnNewButton_2.setImage(SWTResourceManager.getImage(url));
         btnNewButton_2.addPaintListener(e -> {
             // 代码如下 https://blog.csdn.net/qq_39047789/article/details/100503878
-
-            // 获取到控件中的图片
-            org.eclipse.swt.graphics.Image image = btnNewButton_2.getImage();
+            org.eclipse.swt.graphics.Image
+                    image = btnNewButton_2.getImage();
             int h = btnNewButton_2.getBounds().height; // 获取控件的高
             int w = btnNewButton_2.getBounds().width; // 获取控件的宽度
             int height = image.getBounds().height; // 获取原图片的高度
@@ -312,7 +317,7 @@ public class LoginWin {
 
     }
 
-    public String grtCode() {
+    public void grtCode() {
 
         url = dir + System.currentTimeMillis() + ".jpg";
 
@@ -331,9 +336,10 @@ public class LoginWin {
             System.out.println("验证码的值为：" + map.get("code"));
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            IOHelper.close(out);
         }
 
-        return url;
     }
 
     public static String returnName() {

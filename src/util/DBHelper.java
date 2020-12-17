@@ -273,6 +273,7 @@ public class DBHelper {
 
         PreparedStatement ps = null;
         ResultSet rs = null;
+        InputStream in = null;
         try {
             conn = openConnection();
             ps = conn.prepareStatement(sql);
@@ -280,14 +281,14 @@ public class DBHelper {
             rs = ps.executeQuery();
             while (rs.next()) {
                 String imgFile = rs.getString("imgFile");
-                InputStream in = rs.getBinaryStream("photo");
+                in = rs.getBinaryStream("photo");
                 ImageUtil.readBin2Image(in, targetPath + "\\" + imgFile);
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             IOHelper.close(conn, rs, ps);
-
+            IOHelper.close(in);
         }
     }
 

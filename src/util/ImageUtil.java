@@ -28,6 +28,9 @@ public class ImageUtil {
     public static void readBin2Image(InputStream in, String targetPath) {
         File file = new File(targetPath);
         String path = targetPath.substring(0, targetPath.lastIndexOf("\\"));
+        if (in == null){
+            return;
+        }
         if (!file.exists()) {
             new File(path).mkdir();
         }

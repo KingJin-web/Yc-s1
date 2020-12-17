@@ -83,6 +83,13 @@ public class IOHelper {
     public static void copyFile(String oldFile, String newFile) throws IOException {
         File srcFile = new File(oldFile);
         File targetFile = new File(newFile);
+
+        String path = newFile.substring(0, newFile.lastIndexOf("\\"));
+        System.out.println(path);
+        File file = new File(path);
+        if (!file.exists()) {
+            boolean b = file.mkdir();
+        }
         InputStream in = null;
         OutputStream out = null;
         try {
@@ -250,34 +257,32 @@ public class IOHelper {
     }
 
     // 删除指定文件夹下所有文件
-    // param path 文件夹完整绝对路径
-    public static boolean delAllFile(String path) {
-        boolean flag = false;
+    public static void delAllFile(String path) {
+
         File file = new File(path);
         if (!file.exists()) {
-            return flag;
+            return;
         }
         if (!file.isDirectory()) {
-            return flag;
+            return;
         }
         String[] tempList = file.list();
         File temp = null;
-        for (int i = 0; i < tempList.length; i++) {
+        assert tempList != null;
+        for (String s : tempList) {
             if (path.endsWith(File.separator)) {
-                temp = new File(path + tempList[i]);
+                temp = new File(path + s);
             } else {
-                temp = new File(path + File.separator + tempList[i]);
+                temp = new File(path + File.separator + s);
             }
             if (temp.isFile()) {
                 temp.delete();
             }
             if (temp.isDirectory()) {
-                delAllFile(path + "/" + tempList[i]);// 先删除文件夹里面的文件
-                delFolder(path + "/" + tempList[i]);// 再删除空文件夹
-                flag = true;
+                delAllFile(path + "/" + s);// 先删除文件夹里面的文件
+                delFolder(path + "/" + s);// 再删除空文件夹
             }
         }
-        return flag;
     }
 
 

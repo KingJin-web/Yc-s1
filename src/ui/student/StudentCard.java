@@ -64,8 +64,10 @@ public class StudentCard {
     public void open() {
         Display display = Display.getDefault();
         createContents();
+        SwtHelper.center(shell);
         shell.open();
         shell.layout();
+
         while (!shell.isDisposed()) {
             if (!display.readAndDispatch()) {
                 display.sleep();
@@ -114,7 +116,7 @@ public class StudentCard {
                         break out;
                     } else {
                         fileName = IOHelper.retFileName(url);
-                        IOHelper.copyFile(url, "D:\\stuImg\\" + fileName);
+                        IOHelper.copyFile(url, "E:\\stuImg\\" + fileName);
                         sb.updateImg(url, name, fileName);
                         query(name);
                     }
