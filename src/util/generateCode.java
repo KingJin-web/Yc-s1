@@ -7,10 +7,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -41,8 +39,6 @@ public class generateCode {
     public static Map<String, Object> generateCodeAndPic() {
         // 定义图像buffer
         BufferedImage buffImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        // Graphics2D gd = buffImg.createGraphics();
-        // Graphics2D gd = (Graphics2D) buffImg.getGraphics();
         Graphics gd = buffImg.getGraphics();
         // 创建一个随机数生成器类
         Random random = new Random();
@@ -60,12 +56,13 @@ public class generateCode {
         gd.drawRect(0, 0, width - 1, height - 1);
         gd.setFont(font);
         // 随机产生40条干扰线，使图象中的认证码不易被其它程序探测到。
-        int red = 0, green = 0, blue = 0;
+        int red;
+        int green;
+        int blue;
 
 
         // randomCode用于保存随机产生的验证码，以便用户登录后进行验证。
         StringBuffer randomCode = new StringBuffer();
-
 
         // 随机产生codeCount数字的验证码。
         for (int i = 0; i < codeCount; i++) {
@@ -94,7 +91,7 @@ public class generateCode {
             int yl = random.nextInt(50);
             gd.drawLine(x, y, x + xl, y + yl);
         }
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         //存放验证码
         map.put("code", randomCode);
         //存放生成的验证码BufferedImage对象

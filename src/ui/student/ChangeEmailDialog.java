@@ -193,7 +193,7 @@ public class ChangeEmailDialog extends Dialog {
     }
 
     //发送验证码获取验证码
-    public int YanZhengma() {
+    public void YanZhengma() {
 
         try {
             radomInt = new Random().nextInt(999999);
@@ -204,7 +204,6 @@ public class ChangeEmailDialog extends Dialog {
             e.printStackTrace();
         }
 
-        return radomInt;
     }
 
     public boolean changeEmail() throws BizException {

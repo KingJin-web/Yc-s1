@@ -15,15 +15,11 @@ import org.eclipse.swt.widgets.Label;
 
 
 import java.awt.image.RenderedImage;
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Map;
-
 import javax.imageio.ImageIO;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.layout.FormData;
@@ -47,7 +43,7 @@ public class LoginWin {
     private Text textNo;
     private Text textPwd;
     public static String name;
-    private String dir = "D:\\stuImg\\验证码\\";//存放验证码的路径 外部路径
+    private final String dir = "D:\\stuImg\\验证码\\";//存放验证码的路径 外部路径
 
     private final StudentBiz sBiz = new StudentBiz();
     private final TeacherBiz tBiz = new TeacherBiz();
@@ -60,7 +56,7 @@ public class LoginWin {
     /**
      * Launch the application.
      *
-     * @param args
+     * @param args main
      */
     public static void main(String[] args) {
         try {
@@ -137,7 +133,7 @@ public class LoginWin {
         fd_combo.top = new FormAttachment(0, 183);
         fd_combo.left = new FormAttachment(0, 155);
         combo.setLayoutData(fd_combo);
-        combo.setItems(new String[]{"教师", "管理员", "学生"});
+        combo.setItems("教师", "管理员", "学生");
 
         Label label_2 = new Label(shell, SWT.NONE);
         FormData fd_label_2 = new FormData();
@@ -363,7 +359,6 @@ public class LoginWin {
             return "字符串 :---->" + str + "<---- 中不存在 " + strEnd + ", 无法截取目标字符串";
         }
         /* 开始截取 */
-        String result = str.substring(strStartIndex, strEndIndex).substring(strStart.length());
-        return result;
+        return str.substring(strStartIndex, strEndIndex).substring(strStart.length());
     }
 }

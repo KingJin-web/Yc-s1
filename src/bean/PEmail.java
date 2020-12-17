@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class PEmail {
 
-	private int mid;
+	private int id;
 	private int sno;
 	private String sname;
 	private String smessage;
@@ -13,17 +13,17 @@ public class PEmail {
 	private Date ptime;
 
 	public int getMid() {
-		return mid;
+		return id;
 	}
 
 	public void setMid(int mid) {
-		this.mid = mid;
+		this.id = mid;
 	}
 
 	@Override
 	public String toString() {
 		return "PEmail{" +
-				"mid=" + mid +
+				"mid=" + id +
 				", sno=" + sno +
 				", sname='" + sname + '\'' +
 				", smessage='" + smessage + '\'' +

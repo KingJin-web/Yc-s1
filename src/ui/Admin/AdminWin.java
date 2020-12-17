@@ -279,7 +279,7 @@ public class AdminWin {
 		TableColumn tableColumn_8 = new TableColumn(table, SWT.CENTER);
 		tableColumn_8.setWidth(100);
 		tableColumn_8.setText("状态");
-		StuDao sDao = new StuDao();
+
 
 		getStuInfo();
 	}
@@ -289,35 +289,24 @@ public class AdminWin {
 		TableItem[] items = table.getSelection();
 		if (items == null || items.length == 0) {
 			// 创建消息框
-			MessageBox mb = new MessageBox(shell);
-			mb.setMessage("请选择要挂失的学生");
-			mb.setText("系统提示");
-			mb.open();
+			SwtHelper.message("请选择要挂失的学生",shell);
 			return;
 		}
 		TableItem item = items[0];
-		int sno = Integer.valueOf(item.getText(0));
+		int sno = Integer.parseInt(item.getText(0));
 		int state = findString1(item.getText(8));
 		if (state == 0) {
-			MessageBox mb = new MessageBox(shell);
-			mb.setMessage("此卡不需要补办");
-			mb.setText("系统提示");
-			mb.open();
+			SwtHelper.message("此卡不需要补办",shell);
 			return;
 		}
 		AdminBiz aBiz = new AdminBiz();
 		try {
 			aBiz.update(0.0f, 0, sno);
 		} catch (BizException e) {
-			MessageBox mb = new MessageBox(shell);
-			mb.setText("系统提示");
-			mb.setMessage(e.getMessage());
-			mb.open();
+			SwtHelper.message(e.getMessage(), shell);
 		}
-		MessageBox mb = new MessageBox(shell);
-		mb.setMessage("挂失成功!");
-		mb.setText("系统提示");
-		mb.open();
+		SwtHelper.message("挂失成功 !",shell);
+
 		getStuInfo();
 
 	}
@@ -469,11 +458,12 @@ public class AdminWin {
 
 	public void getStuInfo() {
 		try {
-			String sql = "select * from student where 1 = 1";
+			String sql = "select * from student where  sname != '匿名'";
 			DBHelper dbh = new DBHelper();
 			List<Student> list = dbh.query(sql, Student.class);
 			table.removeAll();
 			for (Student stu : list) {
+				System.out.println(stu);
 				TableItem tbItem = new TableItem(table, SWT.NONE);
 				tbItem.setText(new String[] { "" + stu.getSno(), "" + stu.getSname(), "" + stu.getSsex(),
 						"" + stu.getSage(), "" + stu.getSclass(), "" + college[stu.getCid()], "" + stu.getSmo(),

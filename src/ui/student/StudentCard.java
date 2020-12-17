@@ -1,21 +1,17 @@
 package ui.student;
 
+
+import ui.LoginWin;
+import util.IOHelper;
+import biz.StudentBiz;
+import swing2swt.layout.BorderLayout;
+import org.eclipse.swt.widgets.Composite;
+import java.io.IOException;
+import java.util.*;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
-import ui.LoginWin;
-import util.DBHelper;
-import util.IOHelper;
-import bean.Student;
-import biz.StudentBiz;
-import swing2swt.layout.BorderLayout;
-import org.eclipse.swt.widgets.Composite;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -24,10 +20,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
-
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import ui.Login;
 import util.SwtHelper;
 
 
@@ -332,26 +326,6 @@ public class StudentCard {
         }
 
     }
-
-    public void changeImg() {
-        String url = "", fileName = null;
-        FileDialog fileselect = new FileDialog(shell);
-        fileselect.setFilterPath("C:\\Users\\King\\Pictures");// 设置默认的路径
-        fileselect.setText("选择图片");// 设置对话框的标题
-        fileselect.setFilterNames(new String[]{"图片 (*.jpg*)", "所有文件(*.*)"});// 设置扩展名
-        fileselect.setFilterExtensions(new String[]{"*.jpg", "*.*"});// 设置文件扩展名
-
-
-        url = fileselect.open();
-        try {
-            fileName = IOHelper.retFileName(url);
-            IOHelper.copyFile(url, System.getProperty("user.dir") + "\\img\\" + fileName);
-        } catch (Exception ioException) {
-            ioException.printStackTrace();
-        }
-        System.out.println("选择的图片路径：" + url);
-    }
-
     public static String returnName() {
         return name;
     }

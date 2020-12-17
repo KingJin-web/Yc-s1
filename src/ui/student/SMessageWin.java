@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Label;
  */
 public class SMessageWin {
 
-    private static String name = StudentCard.returnName();
+    private static final String name = StudentCard.returnName();
     protected Shell shell;
     private Text text;
     private Text text_1;

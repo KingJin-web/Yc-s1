@@ -29,7 +29,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 public class CerDialog extends Dialog {
 
 	protected Object result;
-	private String name = CertificateWin.returnName();
+	private final String name = CertificateWin.returnName();
 	protected Shell shell;
 	private Text text;
 	private String imgFile;
