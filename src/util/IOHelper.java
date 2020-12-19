@@ -127,12 +127,7 @@ public class IOHelper {
     }
 
     public static void main(String[] args) throws IOException, BizException {
-//		String classPath = StudentCard.class.getResource("").getPath();
-//		String projectPath = System.getProperty("user.dir");
-//		System.out.println(classPath);
-//		System.out.println(projectPath);
-        //copyFile("E:\\吴沼淇\\1.jpg", System.getProperty("user.dir") + "\\img\\1.jpg");
-        //System.out.println(retFileName("D:\\吴沼淇\\1.jpg"));
+
         copyFile("C:\\Users\\King\\Pictures\\蔡徐坤篮球.jpg","E:\\Users\\King\\eclipse-workspace\\蔡徐坤篮球.jpg");
     }
 
