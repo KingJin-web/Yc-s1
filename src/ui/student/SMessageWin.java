@@ -55,7 +55,9 @@ public class SMessageWin {
      */
     public void open() {
         Display display = Display.getDefault();
+
         createContents();
+        SwtHelper.center(shell);
         shell.open();
         shell.layout();
         while (!shell.isDisposed()) {
@@ -177,6 +179,7 @@ public class SMessageWin {
     /**
      * 提交留言
      * INSERT INTO 表名称[(列1,列2,列3,…)]VALUES(值1,值2,值3,…);
+     *
      * @throws BizException
      */
     public void setMessage() throws BizException {
@@ -194,6 +197,7 @@ public class SMessageWin {
     /**
      * 提交留言 匿名
      * INSERT INTO 表名称[(列1,列2,列3,…)]VALUES(值1,值2,值3,…); 匿名
+     *
      * @throws BizException
      */
     public void setMessage2() throws BizException {

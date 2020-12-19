@@ -52,25 +52,31 @@ public class DBHelper {
 
     private boolean isAutoCommit = true;
 
+
+    private static String driver;
+    private static String url;
+    private static String name;
+    private static String pwd;
+
     /**
-     * 	类的代码块:
-     * 	静态块:
-     * 		static {}
-     * 		特点: 会在类被加载到虚拟机时,执行一次(  例如: import 类)
-     * 	实例块
-     *        {}
-     * 		特点: 会在对象被创建时执行一次, 在构造方法前
-     * 	块不是方法,不能抛出编译期异常
+     * 静态块，初始化
      */
     static {
         try {
-            String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-            Class.forName(JDBC_DRIVER);
-        } catch (ClassNotFoundException e) {
-            // 异常转型 ==> 异常链
-            // 未捕获的运行期异常将导致程序的终止
-            RuntimeException re = new RuntimeException("数据库驱动加载失败!", e);
-            throw re;
+            // 读取配置文件 ==> 通过类加载器读取类路径里面的文件
+            String path = "conn.properties";
+            InputStream in = DBHelper.class.getClassLoader().getResourceAsStream(path);
+            // 创建集合对象
+            Properties prop = new Properties();
+            prop.load(in);
+            driver = prop.getProperty("driver");
+            url = prop.getProperty("url");
+            name = prop.getProperty("name");
+            pwd = prop.getProperty("pwd");
+            Class.forName(driver);
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
         }
     }
 
@@ -85,7 +91,11 @@ public class DBHelper {
     public DBHelper(boolean isAutoCommit) {
         this.isAutoCommit = isAutoCommit;
         if (!isAutoCommit) {
-            conn = openConnection();
+            try {
+                conn = getConnection();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
     }
 
@@ -108,35 +118,45 @@ public class DBHelper {
     }
 
     /**
-     * 获取连接
+     * 获取连接对象
      *
      * @return
+     * @throws SQLException
      */
-    public Connection openConnection() {
-
-//        String DB_URL = "jdbc:mysql://kingmysql.mysql.rds.aliyuncs.com:3306/ycs1";
-//        // 数据库的用户名与密码，需要根据自己的设置
-//        String USER = "ycs1";
-//        String PASS = "aaaaaaaa";
-
-        String DB_URL = "jdbc:mysql://localhost:3306/ycs1?serverTimezone=GMT%2B8";
-        String USER = "root";
-        String PASS = "aaaa";
-        try {
-            if (isAutoCommit) {
-                return DriverManager.getConnection(DB_URL, USER, PASS);
-            } else {
-                if (conn == null) {
-                    // 禁止自动提交
-                    conn = DriverManager.getConnection(DB_URL, USER, PASS);
-                    conn.setAutoCommit(isAutoCommit);
-                }
-                return conn;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("获取数据库连接失败!", e);
-        }
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(url, name, pwd);
     }
+//    
+//    /**
+//     * 获取连接
+//     *
+//     * @return
+//     */
+//    public Connection getConnection() {
+//
+////        String DB_URL = "jdbc:mysql://kingmysql.mysql.rds.aliyuncs.com:3306/ycs1";
+////        // 数据库的用户名与密码，需要根据自己的设置
+////        String USER = "ycs1";
+////        String PASS = "aaaaaaaa";
+//
+//        String DB_URL = "jdbc:mysql://localhost:3306/ycs1?serverTimezone=GMT%2B8";
+//        String USER = "root";
+//        String PASS = "aaaa";
+//        try {
+//            if (isAutoCommit) {
+//                return DriverManager.getConnection(DB_URL, USER, PASS);
+//            } else {
+//                if (conn == null) {
+//                    // 禁止自动提交
+//                    conn = DriverManager.getConnection(DB_URL, USER, PASS);
+//                    conn.setAutoCommit(isAutoCommit);
+//                }
+//                return conn;
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException("获取数据库连接失败!", e);
+//        }
+//    }
 
     /**
      * 执行修改数据库的语句
@@ -150,7 +170,7 @@ public class DBHelper {
     public int update(String sql, Object... params) {
         try {
             // 每次都会通过open方法获取连接
-            conn = openConnection();
+            conn = getConnection();
             System.out.println("SQL: " + sql);
             PreparedStatement ps = conn.prepareStatement(sql);
             // alrt + /
@@ -178,7 +198,7 @@ public class DBHelper {
      */
     public List<Map<String, Object>> query(String sql, Object... params) {
         try {
-            conn = openConnection();
+            conn = getConnection();
             System.out.println("SQL: " + sql);
             PreparedStatement ps = conn.prepareStatement(sql);
             // alrt + /
@@ -226,7 +246,7 @@ public class DBHelper {
         FileInputStream in = null;
         try {
             in = ImageUtil.readImage(path);
-            conn = openConnection();
+            conn = getConnection();
             String sql = "insert into photo (id,name,photo)values(?,?,?)";
             ps = conn.prepareStatement(sql);
             ps.setInt(1, 1);
@@ -275,7 +295,7 @@ public class DBHelper {
         ResultSet rs = null;
         InputStream in = null;
         try {
-            conn = openConnection();
+            conn = getConnection();
             ps = conn.prepareStatement(sql);
             ps.setString(1, sname);
             rs = ps.executeQuery();
@@ -303,7 +323,7 @@ public class DBHelper {
      */
     public <E> List<E> query(String sql, Class<E> cls, Object... params) {
         try {
-            conn = openConnection();
+            conn = getConnection();
             System.out.println("SQL: " + sql);
             PreparedStatement ps = conn.prepareStatement(sql);
             // alrt + /
@@ -389,7 +409,7 @@ public class DBHelper {
 
     public List<Map<String, Object>> query1(String sql, Class<Map<String, Object>> cls, Object... params) {
         try {
-            conn = openConnection();
+            conn = getConnection();
             System.out.println("SQL: " + sql);
             PreparedStatement ps = conn.prepareStatement(sql);
             // alrt + /
