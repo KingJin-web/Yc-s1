@@ -37,6 +37,29 @@ public class JudgeHelper {
         return matcher.matches();
     }
 
+    /**
+     * 截取字符串str中指定字符 strStart、strEnd之间的字符串
+     * @param str 待截取字符串
+     * @param strStart 字符串
+     * @param strEnd 字符串
+     * @return str中指定字符 strStart、strEnd之间的字符串
+     */
+    public static String subString(String str, String strStart, String strEnd) {
+
+        /* 找出指定的2个字符在 该字符串里面的 位置 */
+        int strStartIndex = str.indexOf(strStart);
+        int strEndIndex = str.indexOf(strEnd);
+
+        /* index 为负数 即表示该字符串中 没有该字符 */
+        if (strStartIndex < 0) {
+            return "字符串 :---->" + str + "<---- 中不存在 " + strStart + ", 无法截取目标字符串";
+        }
+        if (strEndIndex < 0) {
+            return "字符串 :---->" + str + "<---- 中不存在 " + strEnd + ", 无法截取目标字符串";
+        }
+        /* 开始截取 */
+        return str.substring(strStartIndex, strEndIndex).substring(strStart.length());
+    }
     public static void main(String[] args) {
         JudgeHelper jdh = new JudgeHelper();
         System.out.println(jdh.isEmail("1@1.com"));

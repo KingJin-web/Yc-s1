@@ -5,14 +5,6 @@ import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.MessageBox;
-
-import java.security.GeneralSecurityException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.mail.MessagingException;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 import biz.BizException;
@@ -24,7 +16,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.wb.swt.SWTResourceManager;
+
 
 public class PwdChangeWin extends Dialog {
 

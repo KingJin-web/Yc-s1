@@ -29,6 +29,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.wb.swt.SWTResourceManager;
 import util.DBHelper;
+import util.JudgeHelper;
 
 public class MainWin {
 
@@ -39,7 +40,7 @@ public class MainWin {
     private Text text_2;
     private Table table;
     private Text text_4;
-    String[] college = new String[]{"", "计信学院", "经管学院", "材化学院", "数能学院", "电信学院", "建工学院", "外国语学院", "机械学院"};
+    private final String[] college = new String[]{"", "计信学院", "经管学院", "材化学院", "数能学院", "电信学院", "建工学院", "外国语学院", "机械学院"};
 
     /**
      * Launch the application.
@@ -179,8 +180,8 @@ public class MainWin {
         btnNewButton_1.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                System.out.println(subString(String.valueOf(combo), "{", "}"));
-                String coo = subString(String.valueOf(combo), "{", "}");
+
+                String coo = JudgeHelper.subString(String.valueOf(combo), "{", "}");
 
                 int index = 0;
                 if (coo == null || coo.trim().isEmpty()) {
@@ -250,30 +251,10 @@ public class MainWin {
     }
 
     public String getname() {
-        // TODO Auto-generated method stub
+
         return sname;
     }
 
-    /**
-     * 截取字符串str中指定字符 strStart、strEnd之间的字符串
-     */
-    public static String subString(String str, String strStart, String strEnd) {
-
-        /* 找出指定的2个字符在 该字符串里面的 位置 */
-        int strStartIndex = str.indexOf(strStart);
-        int strEndIndex = str.indexOf(strEnd);
-
-        /* index 为负数 即表示该字符串中 没有该字符 */
-        if (strStartIndex < 0) {
-            return "字符串 :---->" + str + "<---- 中不存在 " + strStart + ", 无法截取目标字符串";
-        }
-        if (strEndIndex < 0) {
-            return "字符串 :---->" + str + "<---- 中不存在 " + strEnd + ", 无法截取目标字符串";
-        }
-        /* 开始截取 */
-        String result = str.substring(strStartIndex, strEndIndex).substring(strStart.length());
-        return result;
-    }
 
     protected void query(String sname, String stuno, String sclass, int stucid) {
         try {

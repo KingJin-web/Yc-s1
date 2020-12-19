@@ -49,7 +49,7 @@ public class LoginWin {
     private final TeacherBiz tBiz = new TeacherBiz();
     private final AdminBiz aBiz = new AdminBiz();
     private Text text;
-    private String url = "src//imges//1602326102963.jpg";
+    private String url = "";
     private String Code = "T8mN";
     private Button btnNewButton_2;
 
