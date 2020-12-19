@@ -6,14 +6,10 @@ import biz.StudentBiz;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
-
-
 import biz.AdminBiz;
 import biz.BizException;
 import biz.TeacherBiz;
 import org.eclipse.swt.widgets.Label;
-
-
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -81,6 +77,7 @@ public class LoginWin {
 
         while (!shell.isDisposed()) {
             if (!display.readAndDispatch()) {
+                IOHelper.delAllFile(dir);
                 display.sleep();
             }
         }
@@ -234,7 +231,7 @@ public class LoginWin {
         fd_button.bottom = new FormAttachment(0, 143);
         fd_button.top = new FormAttachment(0, 123);
         fd_button.left = new FormAttachment(0, 302);
-        button.setText("忘记密码");
+        //button.setText("忘记密码");
         button.setLayoutData(fd_button);
         button.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -242,6 +239,8 @@ public class LoginWin {
                 new PwdChangeWin(shell, SWT.NONE).open();
             }
         });
+        button.setImage(SWTResourceManager.getImage(LoginWin.class,
+                "/org/eclipse/jface/dialogs/images/message_info.png"));
         button.setToolTipText("忘记密码");
 
         Button button_1 = new Button(shell, SWT.NONE);

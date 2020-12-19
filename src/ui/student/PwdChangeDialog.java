@@ -44,9 +44,9 @@ public class PwdChangeDialog extends Dialog {
      */
     public Object open() {
         createContents();
+        SwtHelper.center(shell);
         shell.open();
         shell.layout();
-        SwtHelper.center(shell);
         Display display = getParent().getDisplay();
         while (!shell.isDisposed()) {
             if (!display.readAndDispatch()) {

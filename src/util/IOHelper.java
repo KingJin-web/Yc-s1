@@ -128,7 +128,8 @@ public class IOHelper {
 
     public static void main(String[] args) throws IOException, BizException {
 
-        copyFile("C:\\Users\\King\\Pictures\\蔡徐坤篮球.jpg","E:\\Users\\King\\eclipse-workspace\\蔡徐坤篮球.jpg");
+        copyFile("D:/Program Files/eclipse/plugins/org.eclipse.jface_3.15.100.v20190222-1334.jar",
+                "H:\\jetbrains\\java\\Yc-s1\\lib\\swt\\org.eclipse.jface_3.15.100.v20190222-1334.jar");
     }
 
 
