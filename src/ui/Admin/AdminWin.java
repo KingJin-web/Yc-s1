@@ -3,7 +3,7 @@ package ui.Admin;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import swing2swt.layout.BorderLayout;
-import ui.LoginWin;
+
 
 import org.eclipse.swt.widgets.Composite;
 
@@ -25,7 +25,6 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import bean.Student;
 import biz.AdminBiz;
 import biz.BizException;
-import dao.StuDao;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Combo;
@@ -44,7 +43,7 @@ public class AdminWin {
 
 	/**
 	 * Launch the application.
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -84,7 +83,7 @@ public class AdminWin {
 
 		Composite composite = new Composite(shell, SWT.NONE);
 		composite.setLayoutData(BorderLayout.NORTH);
-		composite.setLayout(new GridLayout(8, false));
+		composite.setLayout(new GridLayout(7, false));
 
 		Label lblNewLabel = new Label(composite, SWT.NONE);
 		lblNewLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -128,18 +127,6 @@ public class AdminWin {
 		gd_btnNewButton_2.widthHint = 66;
 		btnNewButton_2.setLayoutData(gd_btnNewButton_2);
 		btnNewButton_2.setText("修改");
-
-		Button button = new Button(composite, SWT.NONE);
-		button.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				lost();
-			}
-		});
-		GridData gd_button = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_button.widthHint = 66;
-		button.setLayoutData(gd_button);
-		button.setText("挂失");
 
 		Button btnNewButton_5 = new Button(composite, SWT.NONE);
 		btnNewButton_5.addSelectionListener(new SelectionAdapter() {
@@ -210,19 +197,6 @@ public class AdminWin {
 		btnNewButton_3.setLayoutData(gd_btnNewButton_3);
 		btnNewButton_3.setText("注销");
 
-		Button btnNewButton_4 = new Button(composite, SWT.NONE);
-		btnNewButton_4.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				AdminWin.this.shell.dispose();
-				new LoginWin().open();
-			}
-		});
-		GridData gd_btnNewButton_4 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnNewButton_4.widthHint = 66;
-		btnNewButton_4.setLayoutData(gd_btnNewButton_4);
-		btnNewButton_4.setText("返回");
-		
 		Button button_1 = new Button(composite, SWT.NONE);
 		button_1.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -309,42 +283,6 @@ public class AdminWin {
 
 		getStuInfo();
 
-	}
-
-	protected void lost() {
-		// 获取当前选择的表格中的行
-		TableItem[] items = table.getSelection();
-		if (items == null || items.length == 0) {
-			// 创建消息框
-			MessageBox mb = new MessageBox(shell);
-			mb.setMessage("请选择要挂失的学生");
-			mb.setText("系统提示");
-			mb.open();
-			return;
-		}
-		TableItem item = items[0];
-		int sno = Integer.valueOf(item.getText(0));
-		int state = findString1(item.getText(8));
-		if (state == 2) {
-			MessageBox mb = new MessageBox(shell);
-			mb.setMessage("此卡已注销");
-			mb.setText("系统提示");
-			mb.open();
-			return;
-		} else if (state == 1) {
-			MessageBox mb = new MessageBox(shell);
-			mb.setMessage("此卡已挂失");
-			mb.setText("系统提示");
-			mb.open();
-			return;
-		}
-		AdminBiz aBiz = new AdminBiz();
-		aBiz.update(1, sno);
-		MessageBox mb = new MessageBox(shell);
-		mb.setMessage("挂失成功!");
-		mb.setText("系统提示");
-		mb.open();
-		getStuInfo();
 	}
 
 	protected void logout() {

@@ -196,9 +196,8 @@ public class ModDialog extends Dialog {
 	}
 
 	protected void save(int sage, String sclass, int cid, String sma) {
-		Student student = new Student();
 		AdminBiz aBiz = new AdminBiz();
-		aBiz.update(sage, sclass, cid, sma, Integer.valueOf(item.getText(0)));
+		aBiz.update(sage, sclass, cid, sma, Integer.parseInt(item.getText(0)));
 	}
 
 	public static String subString(String str, String strStart, String strEnd) {

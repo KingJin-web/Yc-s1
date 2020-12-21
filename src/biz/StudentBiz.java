@@ -15,13 +15,13 @@ import java.util.Map;
 import java.util.Random;
 
 public class StudentBiz {
-    private static int radomInt = new Random().nextInt(999999);
+    private  int radomInt = new Random().nextInt(999999);
     private final DBHelper dbh = new DBHelper();
 
     // 验证账号密码合法性然后登陆
     public boolean login(String sname, String spw) throws BizException {
         String sql = "select * from student where sname=? and spw=?";
-        List<Map<String, Object>> list = new DBHelper().query(sql, sname, spw);
+        List<Map<String, Object>> list = dbh.query(sql, sname, spw);
         if (list.size() == 1) {
             return true;
         } else {
@@ -38,7 +38,7 @@ public class StudentBiz {
      */
     public List<Student> select(String sname) {
         String sql = "select * from student where 1 = 1 and sname=?";
-        List<Student> list = new DBHelper().query(sql, Student.class, sname);
+        List<Student> list = dbh.query(sql, Student.class, sname);
         System.out.println(list);
         return list;
     }
@@ -49,8 +49,9 @@ public class StudentBiz {
      * @return 学生信息list
      */
     public List<Map<String, Object>> selectByName(String sname) {
-        String sql = "select sno,sname,ssex,sage,sclass,smo,sma,imgFile ,c.Cna from student s, college c where 1 = 1 and sname= ? and c.Cid=s.Cid";
-        List<Map<String, Object>> list = new DBHelper().query(sql, sname);
+        //String sql = "select sno,sname,ssex,sage,sclass,smo,sma,imgFile ,c.Cna from student s, college c where 1 = 1 and sname= ? and c.Cid=s.Cid";
+        String sql = "select * from select_student where sname = ?";
+        List<Map<String, Object>> list = dbh.query(sql, sname);
 
         String Path = "D:\\stuImg\\";
         sql = "select photo,imgFile from student where sname = ?";
@@ -89,8 +90,6 @@ public class StudentBiz {
      * @throws BizException
      */
     public boolean changePw(String sno, String newPw1, String newPw2, int YanZhengma) throws BizException {
-        StudentBiz studentBiz = new StudentBiz();
-
         if (newPw1 == null || newPw1.trim().isEmpty()) {
             throw new BizException("密码为空 ! ");
         }
@@ -107,7 +106,7 @@ public class StudentBiz {
         }
 
         String sql = "update student set spw = ? where sname = ?";
-        new DBHelper().update(sql, newPw1, sno);
+        dbh.update(sql, newPw1, sno);
         return true;
     }
 
@@ -132,7 +131,7 @@ public class StudentBiz {
         System.out.println("邮箱 " + email + "验证码 " + radomInt);
 
         try {
-            eh.email(email, String.valueOf(radomInt));
+            eh.email(email, String.valueOf(radomInt),name);
         } catch (MessagingException | GeneralSecurityException e) {
             e.printStackTrace();
         }
@@ -146,6 +145,15 @@ public class StudentBiz {
         System.out.println(studentBiz.selectByName("陈栋"));
     }
 
+    /**
+     * // 学生证挂失与注销
+     * @param state
+     * @param sno
+     */
+    public void update(int state , int sno) {
+        String sql = "update student set state=? where sno=?";
+        dbh.update(sql, state, sno);
+    }
     /**
      * 返回图片名
      *
@@ -164,9 +172,6 @@ public class StudentBiz {
     }
 
     public void updateImg(String url, String name, String fileName) {
-//        String sql = "update student set imgFile = ? where Sname = ?";
-
-//        dbh.update(sql, fileName, name);
 
         String path = url;
         FileInputStream in = null;

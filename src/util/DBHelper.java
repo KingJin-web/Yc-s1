@@ -214,11 +214,6 @@ public class DBHelper {
             List<Map<String, Object>> ret = new ArrayList<>();
             while (rs.next()) {
                 // 创建 map 集合
-                /**
-                 * 1. HashMap   	无序不重复
-                 * 2 LinkedHashMap, 有序不重复
-                 * 3. TreeMap 		排序不重复
-                 */
                 Map<String, Object> row = new LinkedHashMap<>();
                 // 获取每一个字段值, 设置到一个map中
                 for (int i = 0; i < rsmd.getColumnCount(); i++) {

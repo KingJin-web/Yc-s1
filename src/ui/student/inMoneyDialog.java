@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import util.SwtHelper;
 
 /**
  * 充值界面
@@ -48,7 +49,7 @@ public class inMoneyDialog extends Dialog {
 	 */
 	public inMoneyDialog(Shell parent, int style) {
 		super(parent, style);
-		setText("SWT Dialog");
+		setText("欢迎" + name + "同学");
 	}
 
 	/**
@@ -113,10 +114,7 @@ public class inMoneyDialog extends Dialog {
 				try {
 					inMoney();
 				} catch (BizException e1) {
-					MessageBox msBox = new MessageBox(shell);
-					msBox.setText("系统提示");
-					msBox.setMessage(e1.getMessage());
-					msBox.open();
+					SwtHelper.message(e1.getMessage(),shell);
 				}
 				
 			}

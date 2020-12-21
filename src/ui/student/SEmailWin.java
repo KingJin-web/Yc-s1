@@ -64,6 +64,7 @@ public class SEmailWin {
     public void open() {
         Display display = Display.getDefault();
         createContents();
+        SwtHelper.center(shell);
         shell.open();
         shell.layout();
         while (!shell.isDisposed()) {
@@ -123,10 +124,9 @@ public class SEmailWin {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 try {
-                    setEmail(text.getText());
+                    setEmail(text.getText(), 109);
                 } catch (BizException e1) {
                     SwtHelper.message(e1.getMessage(), shell);
-                    return;
                 } finally {
                     getEmail();
                 }
@@ -198,14 +198,14 @@ public class SEmailWin {
      *
      * @throws BizException
      */
-    public void setEmail(String message) throws BizException {
+    public void setEmail(String message, int sno) throws BizException {
         if (message == null || message.trim().isEmpty()) {
             throw new BizException("请输入要提交内容 ! ");
         }
         DBHelper dbh = new DBHelper();
 
-        String sql = "insert into pmail (sname,smessage,mtime) values (?,?,now())";
-        int i = dbh.update(sql, name, message);
+        String sql = "insert into pmail (sno,sname,smessage,mtime) values (?,?,?,now())";
+        int i = dbh.update(sql, sno, name, message);
         if (i == 1) {
             throw new BizException("提交成功! ");
         } else {

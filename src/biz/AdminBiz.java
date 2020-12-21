@@ -1,5 +1,6 @@
 package biz;
 
+import java.io.FileInputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,13 @@ public class AdminBiz {
         dbh.update(sql, sno, sname, ssex, sage, sclass, cid, smo, spw, sma, imgFile);
     }
 
+    // 注册 上传
+    public void insert(int sno, String sname, String ssex, int sage, String sclass, int cid, float smo, String spw,
+                       String sma, String imgFile, FileInputStream in) {
+        String sql = "insert into student values(null,?,?,?,?,?,?,?,?,?,?,0,?)";
+        dbh.update(sql, sno, sname, ssex, sage, sclass, cid, smo, spw, sma, imgFile, in);
+    }
+
     // 修改学生信息
     public void update(int sage, String sclass, int cid, String sma, int sno) {
         String sql = "update student set sage=?,sclass=?,cid=?,sma=? where sno=?";
@@ -88,7 +96,7 @@ public class AdminBiz {
 
     public static void main(String[] args) {
         AdminBiz a = new AdminBiz();
-//		a.insert(111, "李四", "男", 20, "2", 3, 400.00f, "1234", "lisi@qq.com", "陈栋.JPG");
+
         a.update(23, "3", 3, "1232@qq.com", 151);
     }
 }

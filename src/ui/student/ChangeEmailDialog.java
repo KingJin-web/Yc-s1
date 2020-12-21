@@ -3,11 +3,13 @@ package ui.student;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+
 import java.security.GeneralSecurityException;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.mail.MessagingException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
@@ -32,7 +34,8 @@ public class ChangeEmailDialog extends Dialog {
     private Text text;
     private Text text_1;
     private Text text_2;
-    private int radomInt = new Random().nextInt(999999);;
+    private int radomInt = new Random().nextInt(999999);
+    ;
 
     private String email;
     private String name;
@@ -138,7 +141,7 @@ public class ChangeEmailDialog extends Dialog {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 try {
-                    if (changeEmail()){
+                    if (changeEmail()) {
                         shell.dispose();
                     }
 
@@ -199,7 +202,7 @@ public class ChangeEmailDialog extends Dialog {
             radomInt = new Random().nextInt(999999);
             EmailHelper eh = new EmailHelper();
             System.out.println("邮箱：" + email + "验证码： " + radomInt);
-            eh.email(email, String.valueOf(radomInt));
+            eh.email2(email, String.valueOf(radomInt), name);
         } catch (MessagingException | GeneralSecurityException e) {
             e.printStackTrace();
         }

@@ -55,7 +55,6 @@ public class SMessageWin {
      */
     public void open() {
         Display display = Display.getDefault();
-
         createContents();
         SwtHelper.center(shell);
         shell.open();

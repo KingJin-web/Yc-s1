@@ -26,6 +26,7 @@ public class PwdChangeWin extends Dialog {
     private Text textPwd;
     private Text textPwd2;
     private Text textYzm;
+    private final StudentBiz sb = new StudentBiz();
 
     /**
      * Create the dialog.
@@ -139,8 +140,11 @@ public class PwdChangeWin extends Dialog {
         button.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                StudentBiz sb = new StudentBiz();
-                sb.YanZhengma(textName.getText());
+               String name = textName.getText();
+               if (name == null|| name.trim().isEmpty()){
+                   SwtHelper.message("请输入修改的账号姓名", shell);
+               }
+                sb.YanZhengma(name);
             }
         });
         button.setBounds(246, 189, 98, 30);
@@ -150,7 +154,6 @@ public class PwdChangeWin extends Dialog {
         button_1.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                StudentBiz sb = new StudentBiz();
                 try {
                     String str = textYzm.getText().trim();
                     String pwd = textPwd.getText().trim();

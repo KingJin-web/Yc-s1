@@ -160,11 +160,6 @@ public class PwdChangeDialog extends Dialog {
                     }
                 } catch (BizException e1) {
                     SwtHelper.message(e1.getMessage(),shell);
-                    MessageBox msBox = new MessageBox(shell);
-                    msBox.setText("系统提示");
-                    msBox.setMessage(e1.getMessage());
-                    msBox.open();
-                    return;
                 } finally {
                     if (a) {
                         shell.dispose();
