@@ -26,6 +26,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import util.SwtHelper;
 
 public class ChangeEmailDialog extends Dialog {
 
@@ -141,17 +142,14 @@ public class ChangeEmailDialog extends Dialog {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 try {
-                    if (changeEmail()) {
-                        shell.dispose();
-                    }
-
-                } catch (BizException e1) {
-                    MessageBox msBox = new MessageBox(shell);
-                    msBox.setText("系统提示");
-                    msBox.setMessage(e1.getMessage());
-                    msBox.open();
-
+                    changeEmail();
+                } catch (BizException bizException) {
+                    bizException.printStackTrace();
+                   // SwtHelper.message(bizException.getMessage(),shell);
                 }
+                shell.dispose();
+
+
             }
         });
         FormData fd_btnNewButton = new FormData();
